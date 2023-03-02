@@ -195,7 +195,7 @@ export default function Home() {
     }>
         <Head>
         <title>M3MBER </title>
-        <meta name="description" content="ORG3" />
+        <meta name="description" content="M3MBER" />
         <link rel="icon" href="/favicon.ico" />
         </Head>
         <div style={{marginTop: "10%"}}>

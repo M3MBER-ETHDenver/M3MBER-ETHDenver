@@ -45,8 +45,8 @@ export default function Home() {
     <div className={styles.container} style={{ overflow: "hidden"}
     }>
         <Head>
-        <title>ORG3 </title>
-        <meta name="description" content="ORG3" />
+        <title>M3MBER </title>
+        <meta name="description" content="M3MBER" />
         <link rel="icon" href="/favicon.ico" />
         </Head>
 

@@ -195,18 +195,46 @@ export default function Home() {
     }>
         <Head>
         <title>M3MBER </title>
-        <meta name="description" content="ORG3" />
+        <meta name="description" content="M3MBER" />
         <link rel="icon" href="/favicon.ico" />
         </Head>
         <div style={{marginTop: "10%"}}>
         <Heading>Create Membership</Heading>
         <div style = {{flex: "center"}}>
-        <Card
-            style={{
-                display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center",
-                padding: 30, width: "90%", height: 450
-        }}>
-        </Card>
+        <Card title="Create mint rule"
+                    style={{
+                        display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center",
+                        padding: 30, width: "90%"
+                    }}>
+                    <div style = {{display: "flex"}}>
+                    <div style={{ display: "flex", justifyContent: "space-between", padding: 30, width: "100%" }}>
+                        <div style={{ flex: "1 1 auto" }}>
+                            <p style={{ marginBottom: "10px", color: "#9B9BA5" }}>Subname of</p>
+                            <Input disabled value={oid} onChange={handleRuleChange} placeholder="Feature comming soom" />
+                        </div>
+                        <div style={{ flex: "0 1 130px", marginLeft: "10px" }}>
+                            <p style={{ marginBottom: "10px", color: "#9B9BA5" }}>Fee</p>
+                            <InputNumber
+                                stringMode
+                                className="fee-input"
+                                prefix={<img src="/eth.png" alt="etherem" style={{ height: 14, width: "100%" }} />}
+                                value={fee}
+                                onChange={handleFeeChange}
+                                min="0" defaultValue="0.05" step="0.01" />
+                        </div>
+                        <div style={{ flex: "1 1 auto" }}>
+                            <p style={{ marginBottom: "10px", color: "#9B9BA5" }}>Subname of</p>
+                            <Input disabled value={"Monthly"} onChange={handleRuleChange}  />
+                        </div>
+                    </div>
+                    </div>
+                    <div style={{ width: "100%", padding: "0 30px 20px 30px" }}>
+                        <Button size="small" key="submit" loading={submitLoading} onClick={handleCreate} style={{ width: "100%" }}>
+                            Create
+                        </Button>
+                    </div>
+                </Card>
+
                 </div>
 
         </div>
