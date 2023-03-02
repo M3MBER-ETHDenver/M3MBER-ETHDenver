@@ -14,8 +14,8 @@ import {
     goerli
 } from 'wagmi'
 import {
-    org3RegistrarAddrGoerli,
-    org3RegistrarAbiGoerli,
+    M3mberRegistrarAddrGoerli,
+    M3mberRegistrarAbiGoerli,
     ensResolverGoerli,
 } from '../../lib/constants';
 import namehash from "@ensdomains/eth-ens-namehash";

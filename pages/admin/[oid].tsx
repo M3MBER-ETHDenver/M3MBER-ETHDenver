@@ -21,8 +21,8 @@ import MintRules from "../../components/communitySpace/MintRules";
 import {
     namewrapperAbiGoerli,
     namewrapperAddrGoerli,
-    org3RegistrarAddrGoerli,
-    org3RegistrarAbiGoerli,
+    M3mberRegistrarAddrGoerli,
+    M3mberRegistrarAbiGoerli,
     ensBaseRegistrarAbi,
     ensBaseRegistrarAddr
 } from '../../lib/constants';
@@ -324,12 +324,12 @@ function OrgPage({ Component, pageProps }) {
         functionName: 'isApprovedForAll',
         args: [
             address,
-            org3RegistrarAddrGoerli,
+            M3mberRegistrarAddrGoerli,
         ]
     })
     const { data: namesResult } = useContractRead({
-        address: org3RegistrarAddrGoerli,
-        abi: org3RegistrarAbiGoerli,
+        address: M3mberRegistrarAddrGoerli,
+        abi: M3mberRegistrarAbiGoerli,
         functionName: 'names',
         args: [
             namehash.hash(oid),

@@ -199,47 +199,14 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
         </Head>
         <div style={{marginTop: "10%"}}>
-        <Heading>Grant Access</Heading>
-        <div style = {{display: "flex"}}>
+        <Heading>Create Membership</Heading>
+        <div style = {{flex: "center"}}>
         <Card
-                    style={{
-                        display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center",
-                        padding: 30, width: 400, height: 450
-                    }}>
-                    <div style={{ display: "flex", justifyContent: "space-between", width: "90%", alignItems: "flex-end" }}>
-                        <p >Step 1: Wrap your name (TODO) </p>
-                        <Button size="small" loading={wrapETH2LD.isLoading}
-                            onClick={() => { wrapETH2LD.write() }}
-                            disabled={!wrapETH2LD.write || wrapETH2LD.isLoading || wrapETH2LD.isSuccess || isApprovedForAllResult}
-                            style={{ width: "120px", height: "26px", float: "right", marginTop: "5px" }}>
-                            {(setApprovalForAll.isSuccess || isApprovedForAll.data) ? "Done" : setApprovalForAll.isLoading ? "Loading..." : "Sign"}
-                        </Button>
-                    </div>
-                    </Card>
-                    <Card style={{
-                        display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center",
-                        padding: 30, width: 400, height: 450
-                    }}>
-                    <div style={{ display: "flex", justifyContent: "space-between", width: "90%", alignItems: "flex-end" }}>
-                        <p >Step 2: setApprovalForAll        </p>
-                        <Button size="small" loading={setApprovalForAll.isLoading}
-                            onClick={() => { setApprovalForAll.write() }}
-                            disabled={!setApprovalForAll.write || setApprovalForAll.isLoading || setApprovalForAll.isSuccess || isApprovedForAllResult}
-                            style={{ width: "120px", height: "26px", float: "right", marginTop: "5px" }}>
-                            {(setApprovalForAll.isSuccess || isApprovedForAll.data) ? "Done" : setApprovalForAll.isLoading ? "Loading..." : "Sign"}
-                        </Button>
-                    </div>
-                    </Card>
-                <Card style={{
-                        display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center",
-                        padding: 30, width: 400, height: 450
-                    }}>
-                    <div style={{ display: "flex", justifyContent: "space-between", width: "90%", alignItems: "flex-end" }}>
-
-                        <p >Step 3: Burn CAN_UNWRAP fuses </p>
-                        <Button size="small" loading={burnCanUnwrap.isLoading} onClick={() => burnCanUnwrap.write()} disabled={!burnCanUnwrap.write || burnCanUnwrap.isLoading || burnCanUnwrap.isSuccess || (!setApprovalForAll.isSuccess && !isApprovedForAll.data) } style={{ width: "120px", height: "26px", float: "right", marginTop: "5px" }}>{(burnCanUnwrap.isSuccess) ? "Done" : burnCanUnwrap.isLoading ? "Loading..." : "Sign"}</Button>
-                    </div>
-                </Card>
+            style={{
+                display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center",
+                padding: 30, width: "90%", height: 450
+        }}>
+        </Card>
                 </div>
 
         </div>

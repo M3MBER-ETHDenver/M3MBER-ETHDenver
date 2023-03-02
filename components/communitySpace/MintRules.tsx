@@ -14,8 +14,8 @@ import {
 import {
     namewrapperAbiGoerli,
     namewrapperAddrGoerli,
-    org3RegistrarAbiGoerli,
-    org3RegistrarAddrGoerli,
+    M3mberRegistrarAbiGoerli,
+    M3mberRegistrarAddrGoerli,
 } from '../../lib/constants';
 import { toast } from "react-toastify";
 import namehash from "@ensdomains/eth-ens-namehash";
@@ -41,7 +41,7 @@ export default function MintRules(props) {
         functionName: 'isApprovedForAll',
         args: [
             address,
-            org3RegistrarAddrGoerli,
+            M3mberRegistrarAddrGoerli,
         ]
     })
     const isApprovedForAllResult: boolean = isApprovedForAll.data as boolean;
@@ -80,7 +80,7 @@ export default function MintRules(props) {
         abi: namewrapperAbiGoerli,
         functionName: 'setApprovalForAll',
         args: [
-            org3RegistrarAddrGoerli, // parentNode
+            M3mberRegistrarAddrGoerli, // parentNode
             true, // label
         ],
         overrides: {
@@ -123,8 +123,8 @@ export default function MintRules(props) {
 
     // burnCanUnwrap.isSuccess
     const { config } = usePrepareContractWrite({
-        address: org3RegistrarAddrGoerli,
-        abi: org3RegistrarAbiGoerli,
+        address: M3mberRegistrarAddrGoerli,
+        abi: M3mberRegistrarAbiGoerli,
         functionName: 'setupDomain',
         args: [
             namehash.hash(domainName), // node

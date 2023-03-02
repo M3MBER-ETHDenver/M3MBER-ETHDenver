@@ -17,8 +17,8 @@ import {
     goerli
 } from 'wagmi'
 import {
-    org3RegistrarAddrGoerli,
-    org3RegistrarAbiGoerli,
+    M3mberRegistrarAddrGoerli,
+    M3mberRegistrarAbiGoerli,
     ensResolverGoerli,
     ensResolverAbi
 } from '../../lib/constants';
@@ -46,8 +46,8 @@ export default function CommunityInviteCard({...props}) {
         discord,
     } = props.data;
     const {data:data} = useContractRead({
-        address: org3RegistrarAddrGoerli,
-        abi: org3RegistrarAbiGoerli,
+        address: M3mberRegistrarAddrGoerli,
+        abi: M3mberRegistrarAbiGoerli,
         functionName: 'names',
         args: [namehash.hash(ensDomain)]
       }); 
@@ -57,8 +57,8 @@ export default function CommunityInviteCard({...props}) {
     
     
     const { config } = usePrepareContractWrite({
-        address: org3RegistrarAddrGoerli,
-        abi: org3RegistrarAbiGoerli,
+        address: M3mberRegistrarAddrGoerli,
+        abi: M3mberRegistrarAbiGoerli,
         functionName: 'register',
         args: [
             namehash.hash(ensDomain), // parentNode

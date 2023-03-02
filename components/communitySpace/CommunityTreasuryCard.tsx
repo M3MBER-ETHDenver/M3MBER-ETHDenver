@@ -14,8 +14,8 @@ import {
     goerli
 } from 'wagmi'
 import {
-    org3RegistrarAddrGoerli,
-    org3RegistrarAbiGoerli,
+    M3mberRegistrarAddrGoerli,
+    M3mberRegistrarAbiGoerli,
     ensResolverGoerli,
 } from '../../lib/constants';
 import namehash from "@ensdomains/eth-ens-namehash";
@@ -37,8 +37,8 @@ export default function CommunityTreasuryCard(props) {
     } = props.data;
 
     const {data:data} = useContractRead({
-        address: org3RegistrarAddrGoerli,
-        abi: org3RegistrarAbiGoerli,
+        address: M3mberRegistrarAddrGoerli,
+        abi: M3mberRegistrarAbiGoerli,
         functionName: 'names',
         args: [namehash.hash(ensDomain)]
       }); 
@@ -55,8 +55,8 @@ export default function CommunityTreasuryCard(props) {
     }, [props.data])
 
     const withdrawConfig = usePrepareContractWrite({
-        address: org3RegistrarAddrGoerli,
-        abi: org3RegistrarAbiGoerli,
+        address: M3mberRegistrarAddrGoerli,
+        abi: M3mberRegistrarAbiGoerli,
         functionName: 'withdraw',
         args:[
             namehash.hash(ensDomain), // node
