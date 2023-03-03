@@ -22,6 +22,7 @@ import { toast } from "react-toastify";
 import namehash from "@ensdomains/eth-ens-namehash";
 import { ethers } from 'ethers';
 import AccessCard from '../../components/AccessCard';
+import Container from '../../components/Container';
 
 export default function Home() {
     const [oid, setOid] = useState("");
@@ -167,7 +168,7 @@ export default function Home() {
                 <meta name="description" content="M3MBER" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <div style={{ width: "100%", maxWidth: "1500px", margin: "auto", padding: "120px" }}>
+            <Container>
                 <div style={{ display: "flex", alignItems: "center" }}>
                     <img style={{ width: 70, height: 70 }} src="/metamask_logo.png" alt="Metamask logo" />
                     <Heading style={{ fontSize: "64px", marginLeft: 20 }}>Grant Access</Heading>
@@ -198,7 +199,7 @@ export default function Home() {
                         step={3}
                     />
                 </div>
-            </div>
+            </Container>
         </div>
     )
 }
