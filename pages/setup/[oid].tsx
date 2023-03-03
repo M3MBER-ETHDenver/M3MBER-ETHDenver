@@ -171,7 +171,7 @@ export default function Home() {
             <Container>
                 <div style={{ display: "flex", alignItems: "center" }}>
                     <img style={{ width: 70, height: 70 }} src="/metamask_logo.png" alt="Metamask logo" />
-                    <Heading style={{ fontSize: "64px", marginLeft: 20 }}>Grant Access</Heading>
+                    <Heading style={{ fontSize: "50px", marginLeft: 20 }}>Grant Access</Heading>
                 </div>
                 <div style={{ display: "flex", justifyContent: "space-between", width: "100%", marginTop: 30 }}>
                     <AccessCard

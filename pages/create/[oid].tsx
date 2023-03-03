@@ -9,7 +9,7 @@ import { SummaryCardData } from '../admin/[oid]';
 import { domainData } from '../../lib/ensdata';
 import MintRules from '../../components/communitySpace/MintRules';
 import { Input, InputNumber, message, Space } from "antd";
-import { Modal, Card, Heading, Button, Textarea} from '@ensdomains/thorin'
+import { Modal, Card, Heading, Button, Textarea } from '@ensdomains/thorin'
 import {
     useAccount,
     useContractRead,
@@ -30,6 +30,7 @@ import { ethers } from 'ethers';
 import { Typography } from "@ensdomains/thorin";
 import CopyShare from "../../utils/CopyShare";
 import { CheckCircleSVG } from "@ensdomains/thorin";
+import Container from '../../components/Container';
 
 export default function Home() {
     const [oid, setOid] = useState("");
@@ -193,55 +194,55 @@ export default function Home() {
     }
 
     return (
-    <div className={styles.container} style={{ overflow: "hidden"}
-    }>
-        <Head>
-        <title>M3MBER </title>
-        <meta name="description" content="M3MBER" />
-        <link rel="icon" href="/favicon.ico" />
-        </Head>
-        <div style={{marginTop: "10%"}}>
-        <Heading>Create Membership</Heading>
-        <div style = {{flex: "center"}}>
-        <Card>
-                    <div style = {{display: "flex"}}>
-                    <div style={{ display: "flex", justifyContent: "space-between", padding: 30, width: "100%" }}>
+        <div className={styles.container} style={{ overflow: "hidden" }
+        }>
+            <Head>
+                <title>M3MBER </title>
+                <meta name="description" content="M3MBER" />
+                <link rel="icon" href="/favicon.ico" />
+            </Head>
+            <Container>
+                <Heading style={{ fontSize: "50px", marginBottom: 30 }}>Create Membership</Heading>
+                <Card style={{ boxShadow: "0 8px 20px rgba(0,0,0,0.12)", padding: 50 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", width: "100%", marginBottom: "10px" }}>
                         <div style={{ flex: "1 1 auto" }}>
                             <p style={{ marginBottom: "10px", color: "#9B9BA5" }}>Subname of</p>
-                            <Input disabled value={oid} onChange={handleRuleChange} placeholder="" />
+                            <Input value={oid} onChange={handleRuleChange} placeholder=""
+                                style={{ height: 50 }} />
                         </div>
-                        <div style={{ flex: "0 1 130px", marginLeft: "10px" }}>
+                        <div style={{ flex: "1 1 auto", marginLeft: "10px" }}>
                             <p style={{ marginBottom: "10px", color: "#9B9BA5" }}>Fee</p>
                             <InputNumber
+                                size="large"
                                 stringMode
                                 className="fee-input"
                                 prefix={<img src="/eth.png" alt="etherem" style={{ height: 14, width: "100%" }} />}
                                 value={fee}
                                 onChange={handleFeeChange}
-                                min="0" defaultValue="0.05" step="0.01" />
+                                min="0" defaultValue="0.05" step="0.01"
+                                style={{ height: 50 }} />
                         </div>
-                        <div style={{ flex: "1 1 auto" }}>
+                        <div style={{ flex: "0 1 200px", marginLeft: "10px" }}>
                             <p style={{ marginBottom: "10px", color: "#9B9BA5" }}>Period</p>
-                            <Input disabled value={"Monthly"} onChange={handleRuleChange}  />
+                            <Input disabled value={"Monthly"} onChange={handleRuleChange}
+                                style={{ height: 50 }} />
                         </div>
-                    </div>
                     </div>
                     <div>
-                            <p style={{ marginBottom: "10px", color: "#9B9BA5" }}>Description</p>
-                            <Textarea label="" value={description} onChange={handleDescriptionChange} placeholder="Describe what benefit this membership will provide" />
-                        </div>
-                    <div style={{ width: "100%", padding: "0 30px 20px 30px" }}>
-                        <Button size="small" key="submit" loading={submitLoading} onClick={handleCreate} style={{ width: "100%" }}>
-                            Save
-                        </Button>
+                        <p style={{ color: "#9B9BA5" }}>Description</p>
+                        <Textarea label="" value={description} onChange={handleDescriptionChange}
+                            style={{ height: "200px" }}
+                            maxLength={1000}
+                            placeholder="Describe what benefit this membership will provide" />
                     </div>
-                    
+                    <Button key="submit" loading={submitLoading} onClick={handleCreate}
+                        style={{ width: "200px", marginTop: 20 }}>
+                        Save
+                    </Button>
+
                 </Card>
 
-                </div>
-
+            </Container>
         </div>
-    </div>
     )
 }
-    
