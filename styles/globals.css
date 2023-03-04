@@ -142,6 +142,6 @@ small {
   cursor: pointer;
 }
 
-.ant-select-selector{
-  height:"50"
+.info-button {
+  cursor: pointer;
 }
