@@ -492,7 +492,7 @@ function OrgPage({ Component, pageProps }) {
             <div style={{ width: "100%", display: "flex", justifyContent: "space-between" }}>
                 <section style={{ width: 325, marginRight: 25 }}>
                     <div style={{ width: "100%", display: "flex", justifyContent: "space-between" }}>
-                        <SquareIconButton link={`/edit/${oid}`} text={"Give out pass"} icon={"/give_out_icon.png"} />
+                        <SquareIconButton link={`/giveoutpass/${oid}`} text={"Give out pass"} icon={"/give_out_icon.png"} />
                         <SquareIconButton link={`/edit/${oid}`} text={"Edit membership"} icon={"/edit_icon.png"} />
                     </div>
                     <MembershipCard text="Memership Claimed" data={"0"} />
