@@ -63,6 +63,7 @@ export interface DataType {
     name: [string, boolean];
     domain: string;
     address: string;
+    expirationdate: string;
     index: string;
 }
 
@@ -154,7 +155,7 @@ const columns: ColumnsType<DataType> = [
     },
     {
         title: 'Expiration date',
-        dataIndex: 'date',
+        dataIndex: 'expirationdate',
         sorter: {
 
             compare: (a, b) => {
@@ -288,8 +289,6 @@ function OrgPage({ Component, pageProps }) {
             namehash.hash(oid),
         ]
     })
-    console.log(owner);
-    console.log(namesResult);
 
     const sortCommunityData = (row1: DataType, row2: DataType) => {
         if (row1.avatar && row2.avatar) {
@@ -402,7 +401,7 @@ function OrgPage({ Component, pageProps }) {
     useEffect(() => {
         (async () => {
             const oidsubdomainDetails = await subdomainDetails(oid);
-            console.log(oidsubdomainDetails);
+            // console.log(oidsubdomainDetails);
 
             setCommunityPageData(oidsubdomainDetails);
             setCommunityPageSearchData(oidsubdomainDetails);
@@ -415,7 +414,7 @@ function OrgPage({ Component, pageProps }) {
 
     useEffect(() => {
         (async () => {
-            console.log(communityPageData)
+            // console.log(communityPageData)
             if (communityPageData && communityPageData.length != 0) {
                 for (let i = 0; i < communityPageData.length; ++i) {
                     getOneNameAndAvatar(communityPageData[i], i);

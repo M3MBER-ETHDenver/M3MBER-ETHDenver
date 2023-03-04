@@ -43,7 +43,6 @@ export default function CommunityTreasuryCard(props) {
         functionName: 'names',
         args: [namehash.hash(ensDomain)]
     });
-    console.log(namehash.hash(ensDomain), data);
 
     const [messageApi, contextHolder] = message.useMessage();
     const [loading, setLoading] = useState(true);

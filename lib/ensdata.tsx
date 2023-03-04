@@ -55,14 +55,23 @@ const registeredDate = async (ensName: string) => {
         })
     return data;
 }
-export const subdomainDetails = async (ensName: string) => {
+export const formatExpiry = (expiry) => {
+    let expirationDate = new Date(expiry);
+    const options = { year: 'numeric', month: 'short', day: 'numeric' };
+    console.log(expirationDate.toLocaleDateString(undefined, options));
+    return expirationDate.toLocaleDateString(undefined, options) 
 
+}
+
+export const subdomainDetails = async (ensName: string) => {
     const id = namehash.hash(ensName);
     const query =
         `
     {
         domains (where: {name:"${ensName}"}){
-            
+            wrappedDomain {
+                expiryDate
+            }
             subdomains{
                 owner{
                     id
@@ -71,15 +80,18 @@ export const subdomainDetails = async (ensName: string) => {
                     id
                 }
                 name
+                wrappedDomain {
+                    expiryDate
+                }
             }
         }
-  }    `
+    }    `
     const data = await GraphClient
         .query({
             query: gql(query),
         })
     const subdomainDetails: DataType[] = [];
-    // console.log(data.data);
+    console.log(data.data);
     if (!data.data.domains[0]) {
         return subdomainDetails;
     }
@@ -100,12 +112,17 @@ export const subdomainDetails = async (ensName: string) => {
         if (!avatar) avatar = "https://source.boringavatars.com/beam/40/" + data.data.domains[0].subdomains[i].name;
 
         if (!name) name = "Loading..."
+        // alert(new Date(data.data.domains[0].subdomains[i].wrappedDomain.expiryDate * 1000).toDateString)
+        // if(data.data.domains[0].subdomains[i].wrappedDomain){
+        //     alert(new Date(1715245800));
+        // }
         subdomainDetails.push({
             key: (i + 1).toString(),
             avatar: avatar,
             name: [name, false],
             domain: data.data.domains[0].subdomains[i].name,
             address: data.data.domains[0].subdomains[i].resolvedAddress ? data.data.domains[0].subdomains[i].resolvedAddress.id : "Not Set",
+            expirationdate: data.data.domains[0].subdomains[i].wrappedDomain ?  new Date(data.data.domains[0].subdomains[i].wrappedDomain.expiryDate * 1000).toDateString() : "No Expiry",
             index: ""
         });
     }
