@@ -235,14 +235,9 @@ export default function MyPlans({ Component, pageProps }) {
                     </div>
                     <div style={{ flex: "1 1 auto", marginLeft: "10px" }}>
                         <p style={{ marginBottom: "10px", color: "#9B9BA5" }}>Fee</p>
-                        <InputNumber
-                            disabled
-                            size="large"
-                            stringMode
+                        <Input disabled value={"0.01"}
                             className="fee-input"
                             prefix={<img src="/eth.png" alt="etherem" style={{ height: 14, width: "100%" }} />}
-                            value={fee}
-                            min="0" defaultValue="0.05" step="0.01"
                             style={{ height: 50 }} />
                     </div>
                     <div style={{ flex: "0 1 200px", marginLeft: "10px" }}>
