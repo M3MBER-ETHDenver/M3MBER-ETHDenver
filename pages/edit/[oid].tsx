@@ -53,6 +53,8 @@ export default function Home() {
     const [description, setDescription] = useState("")
     const [mintSuccessAndShare, setMintSuccessAndShare] = useState(false);
     const { address } = useAccount();
+    const [originalDescription, setOriginalDescription] = useState("");
+    const [originalFee, setOriginalFee] = useState("");
 
     const {data:data} = useContractRead({
         address: M3mberRegistrarAddrGoerli,
@@ -151,6 +153,7 @@ export default function Home() {
         if (data) {
             let fee = ethers.utils.formatEther(data? data["registrationFee"]:0).toString() ;
             setFee(fee);
+            setOriginalFee(fee);
         }
     }, [data])
 
@@ -190,8 +193,9 @@ export default function Home() {
     useEffect(() => {
         if (setupDomain.isSuccess){
             toast.success("setup successfully")
-            // setMintSuccessAndShare(true);
-            // setSubmitLoading(false);
+            if(originalDescription === description){
+                router.push("/admin/" + oid);
+            }
         }
     }, [setupDomain.isSuccess])
 
@@ -202,10 +206,14 @@ export default function Home() {
         } 
     }, [setM3mbershipDescription.isSuccess])
 
+    useEffect(() => {
+        getDescription();
+    }, [oid])
     const handleCreate = () => {
-        if(setupDomain.isSuccess){
+        if(setupDomain.isSuccess || fee === originalFee){
             toast.success("here yayay")
-            setM3mbershipDescription.write();
+            if(description !== originalDescription)
+                setM3mbershipDescription.write();
         } else{
             setSubmitLoading(true);
             setupDomain?.write({
@@ -218,10 +226,11 @@ export default function Home() {
     }
 
     const  getDescription = async () => {
-            const resolver = await provider.getResolver(oid);
-            let originalDescription = await resolver.getText("telegram");
+            let originalDescription = await (await provider.getResolver(oid)).getText("M3mber Description");
+            setDescription(originalDescription);
+            setOriginalDescription(originalDescription);
     }
-
+    
     const handleStop = () => {
         //TODO: stop minting
         setStopLoading(true);
