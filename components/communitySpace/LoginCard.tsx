@@ -89,48 +89,37 @@ export default function LoginCard({ ...props }) {
 
 
     function adminRedirect() {
-        if(isApprovedForAll.data && isCanUnwrapBurnt.data && namesResult[1]) {
-            router.push("/admin/" + input.toLowerCase() + ".eth") 
+        if (isApprovedForAll.data && isCanUnwrapBurnt.data && namesResult[1]) {
+            router.push("/admin/" + input.toLowerCase() + ".eth")
         }
-        else if(isApprovedForAll.data && isCanUnwrapBurnt.data){
+        else if (isApprovedForAll.data && isCanUnwrapBurnt.data) {
             router.push("/create/" + input.toLowerCase() + ".eth")
         }
-        else{
-         router.push("/setup/" + input.toLowerCase() + ".eth") 
+        else {
+            router.push("/setup/" + input.toLowerCase() + ".eth")
         }
     }
     return (
         <div
-            style={{ width: "100%", borderRadius: "20px" }}
+            style={{ width: 800, borderRadius: "20px" }}
         >
-            <div style={{ width: "100%", height: 600, position: "relative", display: "flex", flexDirection: "column", alignItems: "center", }}>
+            <Title style={{ fontSize: 30, fontWeight: 700 }}>M3MBER</Title>
+            <Text style={{ fontSize: 18, color: "white" }}>Subscription in Web3 was never possible before without namewrapper.<br />
+                Unleash your community through M3MBER today.</Text>
+            <div style={{ marginTop: "100px" }}></div>
 
-                <div style={{
-                    width: "80%", position: "absolute", top: 120, rowGap: "20px",
-                    display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center"
-                }}>
-                    <Title style={{ fontSize: 30, fontWeight: 700 }}>M3MBER</Title>
-                    <Text style={{ fontSize: 18, color: "gray" }}>Subscription in Web3 was never possible before without namewrapper.<br />
-                        Unleash your community through M3MBER today.</Text>
-                    <div style={{ marginTop: "100px" }}></div>
-
-                    <>
-                        <Input onChange={(e) => { setInput(e.target.value) }} style={{ width: 250 }}
-                            labelRight=".eth"
-                            placeholder="m3mber"
-                        />
-                        <Button onClick={() => { adminRedirect(); }} disabled={!isConnected || !input || input.length == 0} type="primary" style={{ width: 296, height: 43 }}>
-                            {displayText}
-                        </Button>
-                        <Button onClick={() => { router.push("/my/plans") }} disabled={!isConnected} type="primary" style={{ width: 296, height: 43 }}>
-                            {displayText2}
-                        </Button>
-                    </>
-
-
-                </div>
-            </div>
-
+            <>
+                <Input onChange={(e) => { setInput(e.target.value) }} style={{ width: 250 }}
+                    labelRight=".eth"
+                    placeholder="m3mber"
+                />
+                <Button onClick={() => { adminRedirect(); }} disabled={!isConnected || !input || input.length == 0} type="primary" style={{ width: 296, height: 43 }}>
+                    {displayText}
+                </Button>
+                <Button onClick={() => { router.push("/my/plans") }} disabled={!isConnected} type="primary" style={{ width: 296, height: 43 }}>
+                    {displayText2}
+                </Button>
+            </>
         </div>
     )
 }
