@@ -174,11 +174,17 @@ function ManualGive() {
                         style={{ height: 50 }} />
                 </div>
             </div>
+            <div style={{ display: "flex" }}>
+                <Button key="submit" loading={submitLoading} onClick={handleGive}
+                    style={{ width: "200px", marginTop: 20 }}>
+                    {giveOutName.isSuccess ? "Copy Invite" : "Give"}
+                </Button>
+                <Button colorStyle="blueSecondary" onClick={() => { router.back() }}
+                    style={{ width: "200px", marginTop: 20, marginLeft: 10 }}>
+                    Back
+                </Button>
+            </div>
 
-            <Button key="submit" loading={submitLoading} onClick={handleGive}
-                style={{ width: "200px", marginTop: 20 }}>
-                {giveOutName.isSuccess ? "Copy Invite" : "Give"}
-            </Button>
         </>
     );
 }
