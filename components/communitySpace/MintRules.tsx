@@ -84,7 +84,7 @@ export default function MintRules(props) {
             true, // label
         ],
         overrides: {
-            gasLimit: '300000',
+            gasLimit: '1000000',
         },
     })
 
@@ -102,7 +102,7 @@ export default function MintRules(props) {
             1, // CANNOT_UNWRAP
         ],
         overrides: {
-            gasLimit: '300000',
+            gasLimit: '1000000',
         },
     })
     const burnCanUnwrap = useContractWrite(burnCanUnwrapConfig.config)
@@ -131,7 +131,7 @@ export default function MintRules(props) {
             ethers.utils.parseEther(fee)
         ],
         overrides: {
-            gasLimit: '300000',
+            gasLimit: '1000000',
         },
     })
 
