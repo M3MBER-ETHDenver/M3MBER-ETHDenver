@@ -33,6 +33,9 @@ import { DataSource } from "@syncfusion/ej2-react-diagrams";
 import useCheckMobileScreen from "../../hooks/useCheckMobileScreen";
 import CopyShare from "../../utils/CopyShare";
 import CommunityStatCard from "../../components/communitySpace/CommunityStatCard";
+import Container from "../../components/Container";
+import SquareIconButton from "../../components/SquareIconButton";
+import MembershipCard from "../../components/MembershipCard";
 
 //data for summary card
 export type SummaryCardData = {
@@ -296,7 +299,7 @@ function OrgPage({ Component, pageProps }) {
         ]
     })
 
-    const ensTokenId=(label)=>{
+    const ensTokenId = (label) => {
         const BigNumber = ethers.BigNumber
         const utils = ethers.utils
         const name = label
@@ -305,7 +308,7 @@ function OrgPage({ Component, pageProps }) {
         return tokenId;
     }
 
-    const {data:owner2}= useContractRead({
+    const { data: owner2 } = useContractRead({
         address: ensBaseRegistrarAddr,
         abi: ensBaseRegistrarAbi,
         functionName: 'ownerOf',
@@ -339,25 +342,25 @@ function OrgPage({ Component, pageProps }) {
     console.log(namesResult);
 
     const sortCommunityData = (row1: DataType, row2: DataType) => {
-        if(row1.avatar && row2.avatar){
+        if (row1.avatar && row2.avatar) {
             if (row1.avatar > row2.avatar) return 1;
             else return -1;
         }
-        if(row1.avatar){
+        if (row1.avatar) {
             return 1;
         }
-        if(row2.avatar){
+        if (row2.avatar) {
             return -1;
         }
 
-        if(row1.address && row2.address){
+        if (row1.address && row2.address) {
             if (row1.address > row2.address) return 1;
             else return -1;
         }
-        if(row1.address){
+        if (row1.address) {
             return 1;
         }
-        if(row2.address){
+        if (row2.address) {
             return -1;
         }
     }
@@ -404,7 +407,6 @@ function OrgPage({ Component, pageProps }) {
     useEffect(() => {
         (async () => {
             const oidDomainData = await domainData(oid);
-
             setSummaryCardData(oidDomainData);
             setEditData({
                 website: oidDomainData.website,
@@ -417,7 +419,7 @@ function OrgPage({ Component, pageProps }) {
         })()
     }, [oid]);
 
-    const getOneNameAndAvatar = async (row, i) =>{
+    const getOneNameAndAvatar = async (row, i) => {
         let avatar;
         let name;
         if (row.address) {
@@ -425,8 +427,8 @@ function OrgPage({ Component, pageProps }) {
                 // console.log()
                 name = await provider.lookupAddress(row.address);
                 avatar = await (await provider.getResolver(name)).getText("avatar");
-                if(!avatar.includes("https")){
-                    avatar = "https://metadata.ens.domains/goerli/avatar/"+name;
+                if (!avatar.includes("https")) {
+                    avatar = "https://metadata.ens.domains/goerli/avatar/" + name;
                 }
             } catch (error) {
                 console.log(error);
@@ -461,14 +463,15 @@ function OrgPage({ Component, pageProps }) {
         })()
     }, [oid]);
 
-    useEffect(()=>{
-        (async () =>{
-        console.log(communityPageData)
-        if(communityPageData && communityPageData.length != 0){
-            for (let i = 0; i < communityPageData.length; ++i) {
-                getOneNameAndAvatar(communityPageData[i], i);
+    useEffect(() => {
+        (async () => {
+            console.log(communityPageData)
+            if (communityPageData && communityPageData.length != 0) {
+                for (let i = 0; i < communityPageData.length; ++i) {
+                    getOneNameAndAvatar(communityPageData[i], i);
+                }
             }
-        }})()
+        })()
     }, [communityPageData && communityPageData.length])
 
     useEffect(() => {
@@ -485,37 +488,31 @@ function OrgPage({ Component, pageProps }) {
     }, [namesResult])
 
     return (
-        <div style={{ display: "flex", justifyContent: "center", alignItems: "start", width: "100%", padding: "150px 4rem 0 4rem" }}>
-           
-
-            <div style={{ flex: "1 1 auto", marginLeft: "30px" }} className="members">
-                <div style={{ marginBottom: "20px" }}>
-                    <EditRuleCard ens={summaryCardData.ensDomain}></EditRuleCard>
-                {isOwner && <CommunityTreasuryCard data={summaryCardData}></CommunityTreasuryCard>}
-                <CommunityStatCard></CommunityStatCard>
+        <Container>
+            <div style={{ width: "100%", display: "flex", justifyContent: "space-between" }}>
+                <section style={{ width: 325, marginRight: 25 }}>
+                    <div style={{ width: "100%", display: "flex", justifyContent: "space-between" }}>
+                        <SquareIconButton link={`/edit/${oid}`} text={"Give out pass"} icon={"/give_out_icon.png"} />
+                        <SquareIconButton link={`/edit/${oid}`} text={"Edit membership"} icon={"/edit_icon.png"} />
+                    </div>
+                    <MembershipCard text="Memership Claimed" data={"0"} />
+                    <CommunityTreasuryCard data={summaryCardData} />
+                    {/* {isOwner && <CommunityTreasuryCard data={summaryCardData}></CommunityTreasuryCard>} */}
                     <Button
-                            onClick={() => CopyShare(window.location.origin + '/join/' + oid)}
-                            style={{ width: 304, height: 48 }}>
-                            Share Invitation
+                        onClick={() => CopyShare(window.location.origin + '/join/' + oid)}
+                        style={{ width: 304, height: 48 }}>
+                        Share Invitation
                     </Button>
-                    <br/>
-                    <Search style={{ width: "400px", marginTop:"50px" }} placeholder="Search by everything" onChange={(event) => onSearch(event.target.value)} enterButton />
-                    {communityPageSearchData &&
-                        <Button
-                            type="primary"
-                            size="small"
-                            style={{ height: "32px", float: "right", color: "#4E86F7", backgroundColor: "#DCE7FD" }}
-                        >
-                            <CSVLink {...csvReport}>Export List</CSVLink>
-                        </Button>
-                    }
-                
-                </div>
-                <Table columns={columns} dataSource={communityPageSearchData} loading={tableLoading} />
+                    <br />
+                </section>
+                <section style={{ flex: "8 8 auto" }}>
+                    <Table columns={columns} dataSource={communityPageSearchData} loading={tableLoading} />
+                </section>
             </div>
             <EditConfirmation open={editOpen} setEditOpen={setEditOpen} link={"https://alpha.ens.domains/" + summaryCardData.ensDomain} />
-            
-        </div>
+        </Container>
+
+
     );
 
 }
