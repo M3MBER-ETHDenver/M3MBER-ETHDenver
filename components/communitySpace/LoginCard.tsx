@@ -89,12 +89,15 @@ export default function LoginCard({ ...props }) {
 
 
     function adminRedirect() {
-        if(isApprovedForAll.data && isCanUnwrapBurnt.data && namesResult["avaialble"]) 
+        if(isApprovedForAll.data && isCanUnwrapBurnt.data && namesResult[1]) {
             router.push("/admin/" + input.toLowerCase() + ".eth") 
-        else if(isApprovedForAll.data && isCanUnwrapBurnt.data)
+        }
+        else if(isApprovedForAll.data && isCanUnwrapBurnt.data){
             router.push("/create/" + input.toLowerCase() + ".eth")
-        else
+        }
+        else{
          router.push("/setup/" + input.toLowerCase() + ".eth") 
+        }
     }
     return (
         <div

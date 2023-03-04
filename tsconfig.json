@@ -23,7 +23,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-, "pages/index.tsx", "components/ensdata.js"  ],
+, "pages/index.tsx", "components/ensdata.js", "pages/giveoutpass"  ],
   "exclude": [
     "node_modules"
   ]
