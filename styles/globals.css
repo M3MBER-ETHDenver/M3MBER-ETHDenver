@@ -109,3 +109,19 @@ small {
 .ant-input-number-input {
   height: 48px!important;
 }
+
+.access-cards-complete {
+  padding: 20px 50px;
+  width: 300px;
+  height: 400px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+  background-color: #4E86F7!important;
+  color: white!important;
+}
+
+.access-cards {
+  padding: 20px 50px;
+  width: 300px;
+  height: 400px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
