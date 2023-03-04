@@ -23,7 +23,7 @@ import { ethers } from 'ethers';
 
 export default function CommunityTreasuryCard(props) {
 
-    const { 
+    const {
         communityName,
         ensDomain,
         createdDate,
@@ -36,13 +36,13 @@ export default function CommunityTreasuryCard(props) {
         discord,
     } = props.data;
 
-    const {data:data} = useContractRead({
+    const { data: data } = useContractRead({
         address: M3mberRegistrarAddrGoerli,
         abi: M3mberRegistrarAbiGoerli,
         functionName: 'names',
         args: [namehash.hash(ensDomain)]
-      }); 
-    console.log(namehash.hash(ensDomain),data);
+    });
+    console.log(namehash.hash(ensDomain), data);
 
     const [messageApi, contextHolder] = message.useMessage();
     const [loading, setLoading] = useState(true);
@@ -58,65 +58,58 @@ export default function CommunityTreasuryCard(props) {
         address: M3mberRegistrarAddrGoerli,
         abi: M3mberRegistrarAbiGoerli,
         functionName: 'withdraw',
-        args:[
+        args: [
             namehash.hash(ensDomain), // node
         ],
         overrides: {
             gasLimit: '300000'
         },
-      })
+    })
 
-        const withdraw = useContractWrite(withdrawConfig.config);
+    const withdraw = useContractWrite(withdrawConfig.config);
 
     const handleWithdraw = () => {
-        
+
         withdraw.write();
     }
 
     useEffect(() => {
-        if(withdraw.isSuccess){
+        if (withdraw.isSuccess) {
             toast.success("Successfully withdraw!");
         }
     }, [withdraw.isSuccess])
 
     if (loading) {
         return (
-        <Card style={{
-            width: 365, height: 550, borderRadius: "10px", backgroundColor: "white"
-        }} loading={true}>
-        </Card>)
+            <Card style={{
+                width: "100%", height: 150, borderRadius: "10px",
+                backgroundColor: "rgba(78,134,247,0.1)",
+                marginTop: 25
+            }} loading={true}>
+            </Card>)
     }
 
     return (
-        <Card
-            style={{
-                width: 365, overflow: "hidden", borderRadius: "10px", backgroundColor: "white", marginBottom: "30px"
-            }}
-            className={"mint-rule-card"}
-        >
-            <div style={{ width: "100%", height: "auto", position: "relative" }}>
-                <div style={{
-                    width: "100%", display: "flex", flexDirection: "column"
-                }}>
-                    <div>
-                        <Text style={{ fontSize: "24px", fontWeight: "700" }}>Treasury</Text>
-                    </div>
-
-                    <div style={{marginTop: "20px"}}>
-                        <div>
-                            <Text style={{ fontSize: "16px", fontWeight: "500", color: "rgba(155, 155, 165, 1)" }}>{ethers.utils.formatEther(data ? data["balance"] : 0)} ETH</Text>
-                            <Button 
-                                type="primary" 
-                                size="small" 
-                                style={{ height: "26px", float: "right", color:"white", backgroundColor: "rgba(59, 142, 252, 1)"}}
-                                onClick={handleWithdraw}
-                            >
-                                Withdraw
-                            </Button>
-                        </div>
-                    </div>
-                </div>
+        <div style={{
+            width: "100%", height: 150, borderRadius: 20,
+            padding: 20, color: "#4E86F7",
+            backgroundColor: "rgba(78,134,247,0.1)",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+            marginTop: 25
+        }}>
+            <div style={{ display: "flex" }}>
+                <img src="/user_check_icon.png" alt="icon"
+                    style={{
+                        lineHeight: "25px", display: "inline-block",
+                        marginRight: 10, width: 25, height: 25
+                    }} />
+                <p style={{ lineHeight: "25px" }}>
+                    Membership
+                </p>
             </div>
-        </Card>
+            <p style={{ fontSize: 40, fontWeight: "bold" }}>{ethers.utils.formatEther(data ? data["balance"] : 0)} ETH</p>
+        </div>
     )
 }

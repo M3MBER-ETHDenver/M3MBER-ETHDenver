@@ -125,3 +125,19 @@ small {
   height: 400px;
   box-shadow: 0 8px 20px rgba(0,0,0,0.12);
 }
+
+.square-icon-button {
+  padding: 25px 15px 15px 15px;
+  width: 150px;
+  height: 150px;
+  background-color: #4E86F7;
+  color: white;
+  border-radius: 20px; 
+  text-align: center;
+  transition-duration: 0.3s;
+}
+
+.square-icon-button:hover {
+  transform: translateY(-8px);
+  cursor: pointer;
+}
