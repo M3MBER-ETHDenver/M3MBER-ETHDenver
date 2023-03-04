@@ -63,7 +63,7 @@ export interface DataType {
     name: [string, boolean];
     domain: string;
     address: string;
-    date: string;
+    expirationdate: string;
     index: string;
 }
 
@@ -155,7 +155,7 @@ const columns: ColumnsType<DataType> = [
     },
     {
         title: 'Expiration date',
-        dataIndex: 'date',
+        dataIndex: 'expirationdate',
         sorter: {
 
             compare: (a, b) => {
