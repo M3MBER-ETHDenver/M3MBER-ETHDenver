@@ -21,6 +21,7 @@ import {
 import namehash from "@ensdomains/eth-ens-namehash";
 import { ethers } from 'ethers';
 import { Button } from "@ensdomains/thorin";
+import { DollarCircleOutlined } from '@ant-design/icons';
 
 export default function CommunityTreasuryCard(props) {
 
@@ -102,13 +103,9 @@ export default function CommunityTreasuryCard(props) {
             position: "relative"
         }}>
             <div style={{ display: "flex" }}>
-                <img src="/user_check_icon.png" alt="icon"
-                    style={{
-                        lineHeight: "25px", display: "inline-block",
-                        marginRight: 10, width: 25, height: 25
-                    }} />
-                <p style={{ lineHeight: "25px" }}>
-                    Membership
+                <DollarCircleOutlined style={{ fontSize: 20 }} />
+                <p style={{ lineHeight: "25px", marginLeft: 10 }}>
+                    Treasuary
                 </p>
             </div>
             <p style={{ fontSize: 40, fontWeight: "bold" }}>{ethers.utils.formatEther(data ? data["balance"] : 0)} ETH</p>
