@@ -9,7 +9,7 @@ import { Input, Button } from 'antd';
 import { CSVLink } from 'react-csv';
 
 import CommunitySummaryCard from "../../components/communitySpace/CommunitySummaryCard";
-import CommunityMintRuleCard from "../../components/communitySpace/CommunityMintRuleCard";
+import EditRuleCard from "../../components/communitySpace/EditRuleCard";
 import CommunityTreasuryCard from "../../components/communitySpace/CommunityTreasuryCard";
 import { domainData, subdomainDetails, provider } from "../../lib/ensdata";
 import { ensRegistrarAddr, ensRegistrarAbi } from '../../lib/constants';
@@ -490,7 +490,7 @@ function OrgPage({ Component, pageProps }) {
 
             <div style={{ flex: "1 1 auto", marginLeft: "30px" }} className="members">
                 <div style={{ marginBottom: "20px" }}>
-                {mintRuleData.ruleCreated && isOwner && <CommunityMintRuleCard data={mintRuleData} setMintRuleOpen={setMintRuleOpen} />}
+                    <EditRuleCard ens={summaryCardData.ensDomain}></EditRuleCard>
                 {isOwner && <CommunityTreasuryCard data={summaryCardData}></CommunityTreasuryCard>}
                 <CommunityStatCard></CommunityStatCard>
                     <Button

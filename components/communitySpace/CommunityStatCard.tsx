@@ -9,7 +9,6 @@ import {
     useAccount,
     useContractRead,
     useContractWrite,
-    usePrepareContractWrite,
     useWaitForTransaction,
     goerli
 } from 'wagmi'
@@ -36,7 +35,7 @@ export default function CommunityStatCard(props) {
                     width: "100%", display: "flex", flexDirection: "column"
                 }}>
                     <div>
-                        <Text style={{ fontSize: "24px", fontWeight: "700" }}>Total M3mbership Claimed </Text>
+                        <Text style={{ fontSize: "24px", fontWeight: "700" }}>Membership Claimed </Text>
                     </div>
 
                     <div style={{marginTop: "20px"}}>

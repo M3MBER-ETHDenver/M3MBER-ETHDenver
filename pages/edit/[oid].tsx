@@ -35,6 +35,7 @@ import { Typography } from "@ensdomains/thorin";
 import CopyShare from "../../utils/CopyShare";
 import { CheckCircleSVG } from "@ensdomains/thorin";
 import Container from '../../components/Container';
+import {provider} from '../../lib/ensdata';
 
 export default function Home() {
     const [oid, setOid] = useState("");
@@ -52,6 +53,16 @@ export default function Home() {
     const [description, setDescription] = useState("")
     const [mintSuccessAndShare, setMintSuccessAndShare] = useState(false);
     const { address } = useAccount();
+
+    const {data:data} = useContractRead({
+        address: M3mberRegistrarAddrGoerli,
+        abi: M3mberRegistrarAbiGoerli,
+        functionName: 'names',
+        args: [namehash.hash(oid)]
+      }); 
+
+    
+
 
     const isApprovedForAll = useContractRead({
         address: namewrapperAddrGoerli,
@@ -136,6 +147,13 @@ export default function Home() {
         }
     }, [burnCanUnwrap.isSuccess])
 
+    useEffect(() => {
+        if (data) {
+            let fee = ethers.utils.formatEther(data? data["registrationFee"]:0).toString() ;
+            setFee(fee);
+        }
+    }, [data])
+
     // burnCanUnwrap.isSuccess
     const { config } = usePrepareContractWrite({
         address: M3mberRegistrarAddrGoerli,
@@ -199,12 +217,9 @@ export default function Home() {
         }
     }
 
-    const handleResume = () => {
-        //TODO: resume minting
-        setSubmitLoading(true);
-        setTimeout(() => {
-            setSubmitLoading(false);
-        }, 1000);
+    const  getDescription = async () => {
+            const resolver = await provider.getResolver(oid);
+            let originalDescription = await resolver.getText("telegram");
     }
 
     const handleStop = () => {
@@ -236,7 +251,7 @@ export default function Home() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <Container>
-                <Heading style={{ fontSize: "50px", marginBottom: 30 }}>Create Membership</Heading>
+                <Heading style={{ fontSize: "50px", marginBottom: 30 }}>Edit Membership</Heading>
                 <Card style={{ boxShadow: "0 8px 20px rgba(0,0,0,0.12)", padding: 50 }}>
                     <div style={{ display: "flex", justifyContent: "space-between", width: "100%", marginBottom: "10px" }}>
                         <div style={{ flex: "1 1 auto" }}>
