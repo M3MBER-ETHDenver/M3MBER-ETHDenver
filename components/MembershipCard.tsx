@@ -1,7 +1,20 @@
 import React from "react";
+import { useState } from "react";
+import { Card } from "antd";
 
 export default function MembershipCard(props) {
     const { text, data } = props;
+    //add loading functionality later
+    const [loading, setLoading] = useState(false);
+    if (loading) {
+        return (
+            <Card style={{
+                width: "100%", height: 150, borderRadius: "10px",
+                backgroundColor: "rgba(78,134,247,0.1)",
+                marginTop: 25
+            }} loading={true}>
+            </Card>)
+    }
 
     return (
         <div style={{
