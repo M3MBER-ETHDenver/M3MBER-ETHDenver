@@ -9,11 +9,7 @@ export default function AccessCard(props) {
         return (
             (setApprovalForAll.isSuccess || isApprovedForAll.data) ?
                 <Card
-                    style={{
-                        padding: "20px 50px", width: 350, height: 450,
-                        boxShadow: "0 8px 20px rgba(0,0,0,0.12)",
-                        backgroundColor: "#4E86F7", color: "white"
-                    }}>
+                    className="access-cards-complete">
 
                     <img src="/check.png" alt="check" style={{ width: 75, height: 75, margin: "50px auto 20px auto" }} />
                     <p style={{ fontSize: 26, textAlign: "center" }}>Wrap your name (TODO)</p>
@@ -21,10 +17,7 @@ export default function AccessCard(props) {
                 </Card>
                 :
                 <Card
-                    style={{
-                        padding: "20px 50px", width: 350, height: 450,
-                        boxShadow: "0 8px 20px rgba(0,0,0,0.12)"
-                    }}>
+                    className="access-cards">
 
                     <img src="/1.png" alt="1" style={{ width: 75, height: 75, margin: "50px auto 20px auto" }} />
                     <p style={{ fontSize: 26, textAlign: "center" }}>Wrap your name (TODO)</p>
@@ -41,11 +34,7 @@ export default function AccessCard(props) {
         return (
             (setApprovalForAll.isSuccess || isApprovedForAll.data) ?
                 <Card
-                    style={{
-                        padding: "20px 50px", width: 350, height: 450,
-                        boxShadow: "0 8px 20px rgba(0,0,0,0.12)",
-                        backgroundColor: "#4E86F7", color: "white"
-                    }}>
+                    className="access-cards-complete">
 
                     <img src="/check.png" alt="check" style={{ width: 75, height: 75, margin: "50px auto 20px auto" }} />
                     <p style={{ fontSize: 26, textAlign: "center" }}>Grant M3MBER Contract Right</p>
@@ -53,12 +42,9 @@ export default function AccessCard(props) {
                 </Card>
                 :
                 <Card
-                    style={{
-                        padding: "20px 50px", width: 350, height: 450,
-                        boxShadow: "0 8px 20px rgba(0,0,0,0.12)"
-                    }}>
+                    className="access-cards">
 
-                    <img src="/1.png" alt="1" style={{ width: 75, height: 75, margin: "50px auto 20px auto" }} />
+                    <img src="/2.png" alt="2" style={{ width: 75, height: 75, margin: "50px auto 20px auto" }} />
                     <p style={{ fontSize: 26, textAlign: "center" }}>Grant M3MBER Contract Right</p>
                     <Button size="medium" loading={setApprovalForAll.isLoading}
                         onClick={() => { setApprovalForAll.write() }}
@@ -73,11 +59,7 @@ export default function AccessCard(props) {
         return (
             (burnCanUnwrap.isSuccess) ?
                 <Card
-                    style={{
-                        padding: "20px 50px", width: 350, height: 450,
-                        boxShadow: "0 8px 20px rgba(0,0,0,0.12)",
-                        backgroundColor: "#4E86F7", color: "white"
-                    }}>
+                    className="access-cards-complete">
 
                     <img src="/check.png" alt="check" style={{ width: 75, height: 75, margin: "50px auto 20px auto" }} />
                     <p style={{ fontSize: 26, textAlign: "center" }}>Burn CAN_UNWRAP fuses</p>
@@ -85,12 +67,9 @@ export default function AccessCard(props) {
                 </Card>
                 :
                 <Card
-                    style={{
-                        padding: "20px 50px", width: 350, height: 450,
-                        boxShadow: "0 8px 20px rgba(0,0,0,0.12)"
-                    }}>
+                    className="access-cards">
 
-                    <img src="/1.png" alt="1" style={{ width: 75, height: 75, margin: "50px auto 20px auto" }} />
+                    <img src="/3.png" alt="3" style={{ width: 75, height: 75, margin: "50px auto 20px auto" }} />
                     <p style={{ fontSize: 26, textAlign: "center" }}>Burn CAN_UNWRAP fuses</p>
                     <Button size="medium" loading={burnCanUnwrap.isLoading}
                         onClick={() => burnCanUnwrap.write()}
