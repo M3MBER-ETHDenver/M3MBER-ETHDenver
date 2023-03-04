@@ -24,7 +24,8 @@ export interface DataType {
     plan: string;
     domain: string;
     address: string;
-    expirationdate: string;
+    //TODO: I changed this from string to date, rember to update data
+    expirationdate: Date;
     index: string;
 }
 
@@ -95,10 +96,18 @@ export default function MyPlans({ Component, pageProps }) {
             sorter: {
 
                 compare: (a, b) => {
-                    return 0;
+                    return a.expirationdate.getTime() - b.expirationdate.getTime();
 
                 },
                 multiple: 1,
+            },
+            render: (expirationdate: Date) => {
+                let currDate = new Date();
+                if (expirationdate.getTime() - currDate.getTime() > 2629746000) {
+                    return <p>{expirationdate.toDateString()}</p>;
+                } else {
+                    return <p style={{ color: "red" }}>{expirationdate.toDateString()}</p>;
+                }
             },
         },
         {
@@ -192,7 +201,7 @@ export default function MyPlans({ Component, pageProps }) {
             plan: "m3mber.eth - monthly",
             domain: "julie.flamingle.eth",
             address: "",
-            expirationdate: "Jan 14, 2023",
+            expirationdate: new Date("2023-03-21"),
             index: ""
         },
         {
@@ -200,7 +209,7 @@ export default function MyPlans({ Component, pageProps }) {
             plan: "m3mber.eth - monthly",
             domain: "julie.flamingle.eth",
             address: "",
-            expirationdate: "Jan 14, 2023",
+            expirationdate: new Date("2023-04-21"),
             index: ""
         },
         {
@@ -208,7 +217,7 @@ export default function MyPlans({ Component, pageProps }) {
             plan: "m3mber.eth - monthly",
             domain: "julie.flamingle.eth",
             address: "",
-            expirationdate: "Jan 14, 2023",
+            expirationdate: new Date("2023-05-21"),
             index: ""
         }
     ]
