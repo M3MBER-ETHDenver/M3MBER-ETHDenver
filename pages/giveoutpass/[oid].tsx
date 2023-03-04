@@ -48,7 +48,7 @@ export default function GiveOutPass() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <Container>
-                <Heading style={{ fontSize: "50px", marginBottom: 30 }}>Give out pass</Heading>
+                <Heading style={{ fontSize: "50px", marginBottom: 30 }}>Airdrop passes</Heading>
                 <Card style={{ boxShadow: "0 8px 20px rgba(0,0,0,0.12)", padding: "20px 50px 50px 50px" }}>
                     <Tabs
                         defaultActiveKey="0"
@@ -58,7 +58,7 @@ export default function GiveOutPass() {
                                 label: (
                                     <span>
                                         <Icon />
-                                        {i === 0 ? "Manual give out" : "Import CSV"}
+                                        {i === 0 ? "Manual Airdrop" : "Import CSV"}
                                     </span>
                                 ),
                                 key: id,
@@ -214,10 +214,7 @@ function ManualGive() {
 
 function ImportCSV() {
 
-    const handleGive = () => {
-
-    }
-
+    
     const [oid, setOid] = useState("");
     useEffect(() => {
         if (router.query.oid != undefined) {
@@ -241,12 +238,12 @@ function ImportCSV() {
         functionName: 'batchAirdrop',
         args: [
             namehash.hash(oid), // parentNode
-            [subnames], // labels
-            [addresses], // owners
+            subnames, // labels
+            addresses, // owners
             ensResolverGoerli, // resolver
             0,
-            [durations],
-            [!addresses?[]:records], // records
+            durations,
+            !addresses?[]:records//records, // records
 
         ],
         overrides: {
@@ -257,11 +254,37 @@ function ImportCSV() {
     console.log(giveOutNameConfig)
 
     const giveOutName = useContractWrite(giveOutNameConfig.config)
+    const handleGive = () => {
+        giveOutName.write()
+    }
+
+    let resolver = new ethers.utils.Interface(ensResolverAbiGoerli);
 
     const setData = (data)=>{
         console.log(data);
+        let alldata = [];
+        let newAddresses = [];
+        let newSubnames = [];
+        let newDurations = [];
+        let newRecords = [];
+        for(let i = 0; i < data.length; i++){
+            if(data[i]["Address"] && data[i]["Address"].includes("0x")){
+                alldata.push(data[i])
+                newAddresses.push(data[i]["Address"])
+                newSubnames.push(data[i]["Subdomain"])
+                newDurations.push(parseInt(data[i]["Months"]))
+                //newRecords.push([resolver.encodeFunctionData("setAddr(bytes32,address)", [ namehash.hash(data[i]["Subdomain"]+"."+oid), data[i]["Address"] ])]);//[resolver.encodeFunctionData("setAddr(bytes32,address)", [ namehash.hash(data[i]["Subdomain"]+"."+oid), data[i]["Address"] ]), resolver.encodeFunctionData("setText(bytes32,string,string)", [ namehash.hash(data[i]["Subdomain"]+"."+oid), "M3MBER", "TRUE" ])])
+                const oneRecords = resolver.encodeFunctionData("setAddr(bytes32,address)", [ namehash.hash(data[i]["Subdomain"]+"."+oid), data[i]["Address"] ])+resolver.encodeFunctionData("setText(bytes32,string,string)", [ namehash.hash(data[i]["Subdomain"]+"."+oid), "M3MBER", "TRUE"])
+                newRecords.push([])
+            }
+        }
+        setAddresses(newAddresses);
+        setSubnames(newSubnames);
+        setDurations(newDurations);
+        setRecords(newRecords);
 
-        setCsvData(data);
+        console.log(subnames, addresses, durations)
+        setCsvData(alldata);
     }
 
     const handleUpload = (info) => {
