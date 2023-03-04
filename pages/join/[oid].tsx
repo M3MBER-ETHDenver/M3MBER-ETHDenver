@@ -7,6 +7,8 @@ import { useRouter } from 'next/router';
 import CommunityInviteCard from '../../components/invite/CommunityInviteCard';
 import { SummaryCardData } from '../admin/[oid]';
 import { domainData } from '../../lib/ensdata';
+import MyImage from '../../public/bgdecoration.png';
+
 export default function Home() {
     const defaultCardData : SummaryCardData = {
         communityName: "",
@@ -42,7 +44,7 @@ export default function Home() {
     }, [oid]);
 
     return (
-    <div className={styles.container} style={{ overflow: "hidden"}
+    <div style={{ overflow: "hidden",height:"100vh",backgroundSize:"cover",backgroundAttachment:"fixed",background:`url(https://i.imgur.com/AWvv4cW.png),linear-gradient(#4E86F7, #4E86F7)`}
     }>
         <Head>
         <title>M3MBER </title>

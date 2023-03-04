@@ -190,16 +190,10 @@ function OrgPage({ Component, pageProps }) {
 
     const router = useRouter();
     const [oid, setOid] = useState("");
-    const [editOpen, setEditOpen] = useState(false);
-    const [mintRuleOpen, setMintRuleOpen] = useState(false);
 
     const [summaryCardData, setSummaryCardData] = useState<SummaryCardData>(defaultCardData);
     const [communityPageData, setCommunityPageData] = useState<DataType[]>();
     const [communityPageSearchData, setCommunityPageSearchData] = useState<DataType[]>();
-    const [editData, setEditData] = useState<EditData>({
-        website: "", discord: "", twitter: "",
-        telegram: "", background: "", image: ""
-    });
     const [tableLoading, setTableLoading] = useState(true);
     const { address, connector, isConnected } = useAccount();
     // TODO: set access
@@ -314,33 +308,6 @@ function OrgPage({ Component, pageProps }) {
         }
     }
 
-    const onSearch = ((value: string) => {
-        console.log(value);
-        if (value === '') {
-            communityPageData.sort(sortCommunityData);
-            setCommunityPageSearchData(communityPageData);
-        }
-        else {
-            if (address) {
-                let newSearchResults = [];
-                for (var index in communityPageData) {
-                    if (communityPageData[index].domain.includes(value)) {
-                        newSearchResults.push(communityPageData[index]);
-                    }
-                    else if (communityPageData[index].name[0].includes(value)) {
-                        newSearchResults.push(communityPageData[index]);
-                    }
-                    else if (communityPageData[index].address.includes(value)) {
-                        newSearchResults.push(communityPageData[index]);
-                    }
-                }
-                newSearchResults.sort(sortCommunityData);
-                setCommunityPageSearchData(newSearchResults);
-            }
-        }
-    });
-
-
     useEffect(() => {
         if (isCanUnwrapBurnt.data && isApprovedForAll.data) {
             // console.log(isCanUnwrapBurnt.data);
@@ -357,14 +324,6 @@ function OrgPage({ Component, pageProps }) {
         (async () => {
             const oidDomainData = await domainData(oid);
             setSummaryCardData(oidDomainData);
-            setEditData({
-                website: oidDomainData.website,
-                discord: oidDomainData.discord,
-                twitter: oidDomainData.twitter,
-                telegram: oidDomainData.telegram,
-                background: oidDomainData.backgroundSrc,
-                image: oidDomainData.avatarSrc
-            })
         })()
     }, [oid]);
 
@@ -430,8 +389,6 @@ function OrgPage({ Component, pageProps }) {
             data.rule = "Any subdomain";
             data.fee = Number(ethers.utils.formatEther(namesResult["registrationFee"]));
             console.log(namesResult[2]);
-            setMintRuleData(data);
-            setMintRuleOpen(false);
         }
 
     }, [namesResult])
