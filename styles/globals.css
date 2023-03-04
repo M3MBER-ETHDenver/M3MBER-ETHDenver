@@ -141,3 +141,7 @@ small {
   transform: translateY(-8px);
   cursor: pointer;
 }
+
+.info-button {
+  cursor: pointer;
+}
