@@ -492,24 +492,17 @@ function OrgPage({ Component, pageProps }) {
             <div style={{ width: "100%", display: "flex", justifyContent: "space-between" }}>
                 <section style={{ width: 325, marginRight: 25 }}>
                     <div style={{ width: "100%", display: "flex", justifyContent: "space-between" }}>
-                        <SquareIconButton link={`/edit/${oid}`} text={"Give out pass"} icon={"/give_out_icon.png"} />
+                        <SquareIconButton link={`/giveoutpass/${oid}`} text={"Give out pass"} icon={"/give_out_icon.png"} />
                         <SquareIconButton link={`/edit/${oid}`} text={"Edit membership"} icon={"/edit_icon.png"} />
                     </div>
+                    {/* TODO: pass in the data for Membership Claimed */}
                     <MembershipCard text="Memership Claimed" data={"0"} />
                     <CommunityTreasuryCard data={summaryCardData} />
-                    {/* {isOwner && <CommunityTreasuryCard data={summaryCardData}></CommunityTreasuryCard>} */}
-                    <Button
-                        onClick={() => CopyShare(window.location.origin + '/join/' + oid)}
-                        style={{ width: 304, height: 48 }}>
-                        Share Invitation
-                    </Button>
-                    <br />
                 </section>
                 <section style={{ flex: "8 8 auto" }}>
                     <Table columns={columns} dataSource={communityPageSearchData} loading={tableLoading} />
                 </section>
             </div>
-            <EditConfirmation open={editOpen} setEditOpen={setEditOpen} link={"https://alpha.ens.domains/" + summaryCardData.ensDomain} />
         </Container>
 
 

@@ -1,4 +1,4 @@
-import { Button, message, Space } from "antd";
+import { message, Space } from "antd";
 import { relative } from "path";
 import { Typography, Card, Skeleton, Avatar } from 'antd';
 const { Meta } = Card;
@@ -20,6 +20,7 @@ import {
 } from '../../lib/constants';
 import namehash from "@ensdomains/eth-ens-namehash";
 import { ethers } from 'ethers';
+import { Button } from "@ensdomains/thorin";
 
 export default function CommunityTreasuryCard(props) {
 
@@ -97,7 +98,8 @@ export default function CommunityTreasuryCard(props) {
             display: "flex",
             flexDirection: "column",
             justifyContent: "space-between",
-            marginTop: 25
+            marginTop: 25,
+            position: "relative"
         }}>
             <div style={{ display: "flex" }}>
                 <img src="/user_check_icon.png" alt="icon"
@@ -110,6 +112,13 @@ export default function CommunityTreasuryCard(props) {
                 </p>
             </div>
             <p style={{ fontSize: 40, fontWeight: "bold" }}>{ethers.utils.formatEther(data ? data["balance"] : 0)} ETH</p>
+            <Button style={{
+                position: "absolute", top: 20, right: 20,
+                width: 95, height: 25, borderRadius: 20,
+                fontSize: 12,
+            }}
+                onClick={handleWithdraw}
+            >Withdraw</Button>
         </div>
     )
 }
