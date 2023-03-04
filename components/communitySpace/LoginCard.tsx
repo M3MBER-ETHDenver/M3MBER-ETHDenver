@@ -129,7 +129,8 @@ export default function LoginCard({ ...props }) {
                 />
                 <Button onClick={() => { adminRedirect(); }}
                     disabled={!isConnected || !input || input.length == 0}
-                    style={{ borderRadius: 20, marginTop: 10 }}>
+                    style={{ borderRadius: 30, marginTop: 10 }}
+                    colorStyle="blueGradient">
                     {displayText}
                 </Button>
 
@@ -142,7 +143,8 @@ export default function LoginCard({ ...props }) {
                     Member
                 </Text>
                 <Button onClick={() => { router.push("/my/plans") }} disabled={!isConnected}
-                    style={{ height: 50, borderRadius: 30, marginTop: 10 }}>
+                    style={{ height: 50, borderRadius: 30, marginTop: 10 }}
+                    colorStyle="accentGradient">
                     {displayText2}
                 </Button>
 
