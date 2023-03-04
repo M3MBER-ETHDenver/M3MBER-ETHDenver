@@ -72,7 +72,7 @@ export default function CommunityInviteCard({...props}) {
             :[], // records
         ],
         overrides: {
-            gasLimit: '300000',
+            gasLimit: '1000000',
             value: data? data["registrationFee"].mul(duration):0
         },
       })
@@ -105,7 +105,7 @@ export default function CommunityInviteCard({...props}) {
 
         ],
         overrides: {
-            gasLimit: '300000'
+            gasLimit: '1000000'
         },
     })
 

@@ -107,7 +107,7 @@ function ManualGive() {
     //         "asdf",
     //     ],
     //     overrides: {
-    //         gasLimit: '300000',
+    //         gasLimit: '1000000',
     //     },
     // }) 
 
@@ -130,7 +130,7 @@ function ManualGive() {
 
         ],
         overrides: {
-            gasLimit: '300000',
+            gasLimit: '1000000',
             value: 0,
         },
     })
@@ -247,7 +247,7 @@ function ImportCSV() {
 
         ],
         overrides: {
-            gasLimit: '300000',
+            gasLimit: '1000000',
             value: 0,
         },
     })

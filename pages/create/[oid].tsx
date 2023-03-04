@@ -82,7 +82,7 @@ export default function Home() {
             true, // label
         ],
         overrides: {
-            gasLimit: '300000',
+            gasLimit: '1000000',
         },
     })
 
@@ -101,7 +101,7 @@ export default function Home() {
             true, // label
         ],
         overrides: {
-            gasLimit: '300000',
+            gasLimit: '1000000',
         },
     })
 
@@ -119,7 +119,7 @@ export default function Home() {
             1, // CANNOT_UNWRAP
         ],
         overrides: {
-            gasLimit: '300000',
+            gasLimit: '1000000',
         },
     })
     const burnCanUnwrap = useContractWrite(burnCanUnwrapConfig.config)
@@ -146,7 +146,7 @@ export default function Home() {
             ethers.utils.parseEther(fee)
         ],
         overrides: {
-            gasLimit: '300000',
+            gasLimit: '1000000',
         },
     })
 
@@ -162,7 +162,7 @@ export default function Home() {
             description,
         ],
         overrides: {
-            gasLimit: '300000',
+            gasLimit: '1000000',
         },
     }) 
 

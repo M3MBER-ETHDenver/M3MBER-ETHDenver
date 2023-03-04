@@ -11,6 +11,7 @@ import namehash from "@ensdomains/eth-ens-namehash";
 import { AnyARecord } from "dns";
 import { resolve } from "path";
 import { rejects } from "assert";
+import {formatFullExpiry, formatExpiry } from "./utils"
 
 const CHAIN_GRAPH_MAP = new Map([[goerli, 'https://api.thegraph.com/subgraphs/name/ensdomains/ensgoerli'], [mainnet, 'https://api.thegraph.com/subgraphs/name/ensdomains/ens']])
 
@@ -129,6 +130,48 @@ export const findAddress = async (ensName) => {
     })
 
     return data;
+}
+
+export const myNamesData = async (address) =>{
+    console.log("my names data", address)
+    const requestOptions = {
+        method: 'POST',
+        body: JSON.stringify(
+            {"query":"query getNames($id: ID!, $expiryDate: Int) {\n  account(id: $id) {\n    registrations(first: 1000, where: {expiryDate_gt: $expiryDate}) {\n      registrationDate\n      expiryDate\n      domain {\n        id\n        labelName\n        labelhash\n        name\n        isMigrated\n        parent {\n          name\n          id\n        }\n        createdAt\n      }\n    }\n    domains(first: 1000) {\n      id\n      labelName\n      labelhash\n      name\n   resolver {\n      texts\n      coinTypes\n      contentHash\n      addr {\n        id\n      }\n    }   isMigrated\n      parent {\n        name\n        id\n      }\n      createdAt\n      registration {\n        registrationDate\n        expiryDate\n      }\n    }\n    wrappedDomains(first: 1000) {\n      expiryDate\n      fuses\n      domain {\n        id\n        labelName\n        labelhash\n        name\n   resolver {\n      texts\n      coinTypes\n      contentHash\n      addr {\n        id\n      }\n    }     isMigrated\n        parent {\n          name\n          id\n        }\n        createdAt\n        registration {\n          registrationDate\n          expiryDate\n        }\n      }\n    }\n  }\n}","variables":{"id":address.toLowerCase(),"expiryDate":0},"operationName":"getNames"}
+        ),
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    };
+
+
+    const response = await fetch(`https://api.thegraph.com/subgraphs/name/ensdomains/ensgoerli`, requestOptions);
+    const data = await response.json();
+    if (!response.ok) {
+        throw new Error(data);
+    }
+
+    const filteredData = [];
+    //console.log(data)
+    const wrappedDomains = data.data.account.wrappedDomains;
+    for(let i = 0; i < wrappedDomains.length; i++){
+        if(wrappedDomains[i].domain.resolver.texts && wrappedDomains[i].domain.resolver.texts.includes("M3MBER")){
+            console.log(wrappedDomains[i])
+            //console.log(formatExpiry(new Date(parseInt(wrappedDomains[i].expiryDate)*1000)))
+            const domain = wrappedDomains[i].domain
+            const oneData = {
+                parent:  domain.parent.name,
+                plan: domain.parent.name + " - monthly",
+                domain: domain.name,
+                expirationdate: formatExpiry(new Date(parseInt(wrappedDomains[i].expiryDate)*1000)),
+                id: BigInt(domain.id),
+                labelhash: domain.labelhash
+            }
+            filteredData.push(oneData)
+        }
+        
+    }
+    return filteredData;
 }
 
 

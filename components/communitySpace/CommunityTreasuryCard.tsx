@@ -63,7 +63,7 @@ export default function CommunityTreasuryCard(props) {
             namehash.hash(ensDomain), // node
         ],
         overrides: {
-            gasLimit: '300000'
+            gasLimit: '1000000'
         },
     })
 
