@@ -14,7 +14,7 @@ export interface DataType {
 export default function MyPlans({ Component, pageProps }) {
     return (
         <Container>
-            <Heading style={{ fontSize: "50px", marginBottom: 30 }}>My Membership</Heading>
+            <Heading style={{ fontSize: "50px", marginBottom: 30 }}>My Memberships</Heading>
         </Container>
     );
 }

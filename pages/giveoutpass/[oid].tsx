@@ -8,7 +8,7 @@ import CommunityInviteCard from '../../components/invite/CommunityInviteCard';
 import { SummaryCardData } from '../admin/[oid]';
 import { domainData } from '../../lib/ensdata';
 import MintRules from '../../components/communitySpace/MintRules';
-import { Input, InputNumber, message, Space } from "antd";
+import { Form, Input, InputNumber, message, Select, Upload, UploadProps, Table } from "antd";
 import { Modal, Card, Heading, Button, Textarea } from '@ensdomains/thorin'
 import {
     useAccount,
@@ -33,6 +33,10 @@ import namehash from "@ensdomains/eth-ens-namehash";
 import { Tabs } from 'antd';
 import { LogoutOutlined, CloudUploadOutlined } from '@ant-design/icons';
 import Container from '../../components/Container';
+import Dragger from 'antd/es/upload/Dragger';
+import Papa from 'papaparse'; // A CSV parser library
+import { UploadOutlined } from '@ant-design/icons';
+import { ethers } from 'ethers';
 
 export default function GiveOutPass() {
     return (
@@ -44,10 +48,10 @@ export default function GiveOutPass() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <Container>
-                <Heading style={{ fontSize: "50px", marginBottom: 30 }}>Give out name</Heading>
+                <Heading style={{ fontSize: "50px", marginBottom: 30 }}>Give out pass</Heading>
                 <Card style={{ boxShadow: "0 8px 20px rgba(0,0,0,0.12)", padding: "20px 50px 50px 50px" }}>
                     <Tabs
-                        defaultActiveKey="2"
+                        defaultActiveKey="0"
                         items={[LogoutOutlined, CloudUploadOutlined].map((Icon, i) => {
                             const id = String(i + 1);
                             return {
@@ -80,7 +84,7 @@ function ManualGive() {
     })
 
     const [submitLoading, setSubmitLoading] = useState(false);
-    const [fee, setFee] = useState("0.05");
+    const [months, setMonths] = useState(1);
     // const { address } = useAccount();
     const [subname, setSubname] = useState("");
     const [receiveraddress, setReceiverAddress] = useState("");
@@ -109,19 +113,20 @@ function ManualGive() {
 
 
     // const setM3mbershipDescription = useContractWrite(setM3mbershipDescriptionConfig.config);
+    let resolver = new ethers.utils.Interface(ensResolverAbi);
 
     const giveOutNameConfig = usePrepareContractWrite({
-        address: namewrapperAddrGoerli,
-        abi: namewrapperAbiGoerli,
-        functionName: 'setSubnodeRecord',
+        address: M3mberRegistrarAddrGoerli,
+        abi: M3mberRegistrarAbiGoerli,
+        functionName: 'batchAirdrop',
         args: [
             namehash.hash(oid), // parentNode
-            "subname", // label
-            receiveraddress, // owner
+            [subname], // labels
+            [receiveraddress], // owners
             ensResolverGoerli, // resolver
-            0, // ttl
-            0, // fuses
-            0, // expiry
+            0,
+            [months],
+            [!receiveraddress?[]:[resolver.encodeFunctionData("setAddr(bytes32,address)", [ namehash.hash(subname+"."+oid), receiveraddress ]), resolver.encodeFunctionData("setText(bytes32,string,string)", [ namehash.hash(subname+"."+oid), "M3MBER", "TRUE" ])]], // records
 
         ],
         overrides: {
@@ -129,16 +134,15 @@ function ManualGive() {
             value: 0,
         },
     })
+    console.log(giveOutNameConfig)
 
-    const giveOutName = useContractWrite(giveOutNameConfig)
+    const giveOutName = useContractWrite(giveOutNameConfig.config)
+
+    
 
 
     const handleGive = () => {
-        if (giveOutName.isSuccess) {
-            copyToClipBoard(router.pathname + "/my/plans");
-        } else {
-            giveOutName.write();
-        }
+        giveOutName.write();
     }
 
     const handleNameChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -149,39 +153,58 @@ function ManualGive() {
     }
 
 
-    const handleFeeChange = (value: string) => {
-        setFee(value);
-    }
+    const handleMonthChange = (value) => {
+        setMonths(value)
+    };
+
 
     return (
         <>
-            <div style={{ display: "flex", justifyContent: "space-between", width: "100%", marginBottom: "10px" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", width: "100%", marginBottom: "20px" }}>
                 <div style={{ flex: "1 1 auto" }}>
                     <p style={{ marginBottom: "10px", color: "#9B9BA5" }}>Subname name</p>
                     <Input value={subname} onChange={handleNameChange} placeholder=""
-                        style={{ height: 50 }} />
+                        style={{ height: 40 }} suffix={"." + oid} />
                 </div>
                 <div style={{ flex: "0 1 200px", marginLeft: 25 }}>
                     <p style={{ marginBottom: "10px", color: "#9B9BA5" }}>Plans</p>
-                    <Input disabled value={"Monthly"}
-                        style={{ height: 50 }} />
+                    <Select
+                        defaultValue={1}
+                        size={"large"}
+                        style={{ width: "20vw", fontSize: "50px" }}
+                        onChange={handleMonthChange}
+                        options={[
+                            { value: 1, label: '1 Month' },
+                            { value: 2, label: '2 Months' },
+                            { value: 3, label: '3 Months' },
+                            { value: 4, label: '4 Months' },
+                            { value: 5, label: '5 Months' },
+                            { value: 6, label: '6 Months' },
+                            { value: 7, label: '7 Months' },
+                            { value: 8, label: '8 Months' },
+                            { value: 9, label: '9 Months' },
+                            { value: 10, label: '10 Months' },
+                            { value: 11, label: '11 Months' },
+                            { value: 12, label: '12 Months' },
+                        ]}
+                    />
                 </div>
             </div>
             <div style={{ display: "flex", justifyContent: "space-between", width: "100%", marginBottom: "10px" }}>
                 <div style={{ flex: "1 1 auto" }}>
                     <p style={{ marginBottom: "10px", color: "#9B9BA5" }}>Recipient Address</p>
-                    <Input value={receiveraddress} onChange={handleReceiverAddress} placeholder=""
-                        style={{ height: 50 }} />
+                    <Input value={receiveraddress} onChange={handleReceiverAddress} placeholder="0x"
+                        style={{ height: 40 }} />
                 </div>
             </div>
             <div style={{ display: "flex" }}>
                 <Button key="submit" loading={submitLoading} onClick={handleGive}
                     style={{ width: "200px", marginTop: 20 }}>
-                    {giveOutName.isSuccess ? "Copy Invite" : "Give"}
+                    {"Give"}
                 </Button>
-                <Button colorStyle="blueSecondary" onClick={() => { router.back() }}
+                <Button colorStyle="blueSecondary" onClick={() => { router.push("/admin/" + oid) }}
                     style={{ width: "200px", marginTop: 20, marginLeft: 10 }}>
-                    Back
+                    Cancel
                 </Button>
             </div>
 
@@ -190,5 +213,110 @@ function ManualGive() {
 }
 
 function ImportCSV() {
-    return <></>;
-}
+
+    const handleGive = () => {
+
+    }
+
+    const [oid, setOid] = useState("");
+    useEffect(() => {
+        if (router.query.oid != undefined) {
+            setOid(typeof (router.query.oid) == 'string' ? router.query.oid : router.query.oid[0]);
+        }
+    })
+    const [csvData, setCsvData] = useState([]);
+    const [subnames, setSubnames] = useState([]);
+    const [addresses, setAddresses] = useState([]);
+    const [durations, setDurations] = useState([]);
+    const [records, setRecords] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [submitLoading, setSubmitLoading] = useState(false);
+    const router = useRouter();
+    // Handle file upload
+
+    //[resolver.encodeFunctionData("setAddr(bytes32,address)", [ namehash.hash(subname+"."+oid), receiveraddress ]), resolver.encodeFunctionData("setText(bytes32,string,string)", [ namehash.hash(subname+"."+oid), "M3MBER", "TRUE" ])]
+    const giveOutNameConfig = usePrepareContractWrite({
+        address: M3mberRegistrarAddrGoerli,
+        abi: M3mberRegistrarAbiGoerli,
+        functionName: 'batchAirdrop',
+        args: [
+            namehash.hash(oid), // parentNode
+            [subnames], // labels
+            [addresses], // owners
+            ensResolverGoerli, // resolver
+            0,
+            [durations],
+            [!addresses?[]:records], // records
+
+        ],
+        overrides: {
+            gasLimit: '300000',
+            value: 0,
+        },
+    })
+    console.log(giveOutNameConfig)
+
+    const giveOutName = useContractWrite(giveOutNameConfig.config)
+
+    const setData = (data)=>{
+        console.log(data);
+
+        setCsvData(data);
+    }
+
+    const handleUpload = (info) => {
+        console.log(info)
+        setLoading(true);
+        const file = info.file.originFileObj;
+        const reader = new FileReader();
+        reader.onload = () => {
+            const result = Papa.parse(reader.result, { header: true });
+            setData(result.data);
+            console.log(csvData)
+            setLoading(false);
+        };
+        reader.readAsText(file);
+    };
+
+    const columns = Object.keys(csvData[0] || {}).map((key) => ({
+        title: key,
+        dataIndex: key,
+    }));
+
+    const csvFileFilter = (file) => {
+        const validTypes = ['text/csv'];
+        const fileType = file.type;
+        if (!validTypes.includes(fileType)) {
+            message.error('You can only upload CSV files!');
+            return false;
+        }
+        return true;
+    };
+
+    return (
+        <>
+        <div style={{ display: "flex", marginBottom:"20px" }}>
+            <Upload
+                beforeUpload={csvFileFilter}
+                onChange={handleUpload}
+                showUploadList={false}
+                accept=".csv"
+            >
+                <Button style={{width: "200px"}} >Upload CSV file</Button>
+                
+            </Upload>
+            <Button key="submit" loading={submitLoading} onClick={handleGive}
+                style={{ width: "200px",marginLeft: 10 }}>
+                {"Give"}
+            </Button>
+            <Button colorStyle="blueSecondary" onClick={() => { router.push("/admin/" + oid) }}
+                style={{ width: "200px", marginLeft: 10 }}>
+                Cancel
+            </Button>
+                </div>
+            <Table dataSource={csvData} columns={columns} loading={loading} />
+        </>
+    );
+};
+
+
