@@ -2,22 +2,15 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Table, Tooltip } from 'antd';
 import { Typography } from 'antd';
-import EditConfirmation from "../../components/communitySpace/EditConfirmation";
 import type { ColumnsType, TableProps } from 'antd/es/table';
 import { useAccount } from "wagmi";
 import { Input, Button } from 'antd';
-import { CSVLink } from 'react-csv';
-
-import CommunitySummaryCard from "../../components/communitySpace/CommunitySummaryCard";
-import EditRuleCard from "../../components/communitySpace/EditRuleCard";
 import CommunityTreasuryCard from "../../components/communitySpace/CommunityTreasuryCard";
 import { domainData, subdomainDetails, provider } from "../../lib/ensdata";
 import { ensRegistrarAddr, ensRegistrarAbi } from '../../lib/constants';
 import { ApolloClient, InMemoryCache, gql } from '@apollo/client'
 import { useProvider } from "wagmi";
 import { useContractRead, useContractWrite, usePrepareContractWrite } from 'wagmi'
-import { MeTag } from '../../components/MeTag';
-import MintRules from "../../components/communitySpace/MintRules";
 import {
     namewrapperAbiGoerli,
     namewrapperAddrGoerli,
@@ -31,11 +24,10 @@ import namehash from "@ensdomains/eth-ens-namehash";
 import { ethers } from 'ethers';
 import { DataSource } from "@syncfusion/ej2-react-diagrams";
 import useCheckMobileScreen from "../../hooks/useCheckMobileScreen";
-import CopyShare from "../../utils/CopyShare";
-import CommunityStatCard from "../../components/communitySpace/CommunityStatCard";
 import Container from "../../components/Container";
 import SquareIconButton from "../../components/SquareIconButton";
 import MembershipCard from "../../components/MembershipCard";
+import { Tag } from "@ensdomains/thorin";
 
 //data for summary card
 export type SummaryCardData = {
@@ -95,54 +87,6 @@ export interface MintRuleData {
 //columns setting
 const columns: ColumnsType<DataType> = [
     {
-        title: '',
-        dataIndex: 'avatar',
-        render: (avatar: string) => (
-            <div style={{ width: 48, height: 48, borderRadius: "50%", overflow: "hidden", margin: "0 -16px 0 20px" }}>
-                <img src={avatar} alt="avatar" style={{ width: "100%", height: "auto" }} />
-            </div>),
-    },
-    {
-        title: 'ENS',
-        dataIndex: 'name',
-        sorter: {
-
-            compare: (a, b) => {
-                if (a.index == '0' || b.index == '0') {
-                    return 0
-                } else {
-                    return a.name[0].localeCompare(b.name[0])
-                }
-            },
-            multiple: 1,
-        },
-        render: (name: [string, boolean]) => {
-
-
-            if (name[1]) {
-                return (
-                    <div style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        alignItems: "center",
-
-                    }}>
-
-                        <Text strong>{name[0]}</Text>
-                        <div style={{
-                            marginLeft: "20px"
-                        }}></div>
-                        <MeTag></MeTag>
-                    </div>
-                )
-            } else {
-                return (
-                    <Text strong>{name[0]}</Text>
-                )
-            }
-        }
-    },
-    {
         title: 'M3MBER subname',
         dataIndex: 'domain',
         sorter: {
@@ -159,7 +103,7 @@ const columns: ColumnsType<DataType> = [
         },
     },
     {
-        title: 'Wallet address',
+        title: 'Owner address',
         dataIndex: 'address',
         sorter: {
             compare: (a, b) => {
@@ -177,12 +121,14 @@ const columns: ColumnsType<DataType> = [
                 return (
                     <div>
                         <Tooltip title="Copy address to clipboard">
-                            <button
-                                style={{ cursor: 'pointer' }}
+                            <Tag
+                                style={{
+                                    cursor: 'pointer', width: 150, height: 36, display: "flex", justifyContent: "center"
+                                }}
                                 onClick={() => navigator.clipboard.writeText(address)}
                             >
                                 {address}
-                            </button>
+                            </Tag>
                         </Tooltip>
                     </div>
                 )
@@ -191,12 +137,16 @@ const columns: ColumnsType<DataType> = [
             return (
                 <div>
                     <Tooltip title="Copy address to clipboard">
-                        <button
-                            style={{ cursor: 'pointer' }}
+                        <Tag
+                            style={{
+                                cursor: 'pointer', width: 150, height: 36, display: "flex", justifyContent: "center",
+                                color: "#4E86F7", borderColor: "rgba(78,134,247, 0.2)"
+                            }}
                             onClick={() => navigator.clipboard.writeText(address)}
+                            colorStyle="background"
                         >
                             {truncated.toLowerCase()}
-                        </button>
+                        </Tag>
                     </Tooltip>
                 </div>
             )
