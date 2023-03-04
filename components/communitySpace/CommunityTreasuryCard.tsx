@@ -105,7 +105,7 @@ export default function CommunityTreasuryCard(props) {
             <div style={{ display: "flex" }}>
                 <DollarCircleOutlined style={{ fontSize: 20 }} />
                 <p style={{ lineHeight: "25px", marginLeft: 10 }}>
-                    Treasuary
+                    Treasury
                 </p>
             </div>
             <p style={{ fontSize: 40, fontWeight: "bold" }}>{ethers.utils.formatEther(data ? data["balance"] : 0)} ETH</p>
