@@ -27,7 +27,8 @@ export interface DataType {
     plan: string;
     domain: string;
     address: string;
-    expirationdate: string;
+    //TODO: I changed this from string to date, rember to update data
+    expirationdate: Date;
     index: string;
 }
 
@@ -48,20 +49,15 @@ export default function MyPlans({ Component, pageProps }) {
     const columns: ColumnsType<DataType> = [
         {
             dataIndex: 'info',
-            render: (_, record) => {
-
-                return (
-                
-                    <InfoCircleTwoTone style={{ fontSize: 20 }} className="info-button"
-                        onClick={() => {
-                            //TODO
-                            setFee("0.01");
-                            setDescription("Basic Access to member.eth. All the members will have limited access of our team alpha update at nft chat channel.");
-                            setInfoOpen(true);
-                    }} ></InfoCircleTwoTone>
-                    
-                );
-            },
+            render: (_, record) => (
+                <InfoCircleTwoTone style={{ fontSize: 20 }} className="info-button"
+                    onClick={() => {
+                        //TODO: pass in the data for info overlay
+                        setFee("0.01");
+                        setDescription("Basic Access to member.eth. All the members will have limited access of our team alpha update at nft chat channel.");
+                        //setInfoOpen(true);
+                    }} />
+            ),
         },
         {
             title: 'Plan',

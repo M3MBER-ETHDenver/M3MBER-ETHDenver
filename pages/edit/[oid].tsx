@@ -35,7 +35,7 @@ import { Typography } from "@ensdomains/thorin";
 import CopyShare from "../../utils/CopyShare";
 import { CheckCircleSVG } from "@ensdomains/thorin";
 import Container from '../../components/Container';
-import {provider} from '../../lib/ensdata';
+import { provider } from '../../lib/ensdata';
 
 export default function Home() {
     const [oid, setOid] = useState("");
@@ -56,14 +56,14 @@ export default function Home() {
     const [originalDescription, setOriginalDescription] = useState("");
     const [originalFee, setOriginalFee] = useState("");
 
-    const {data:data} = useContractRead({
+    const { data: data } = useContractRead({
         address: M3mberRegistrarAddrGoerli,
         abi: M3mberRegistrarAbiGoerli,
         functionName: 'names',
         args: [namehash.hash(oid)]
-      }); 
+    });
 
-    
+
 
 
     const isApprovedForAll = useContractRead({
@@ -151,7 +151,7 @@ export default function Home() {
 
     useEffect(() => {
         if (data) {
-            let fee = ethers.utils.formatEther(data? data["registrationFee"]:0).toString() ;
+            let fee = ethers.utils.formatEther(data ? data["registrationFee"] : 0).toString();
             setFee(fee);
             setOriginalFee(fee);
         }
@@ -185,36 +185,36 @@ export default function Home() {
         overrides: {
             gasLimit: '1000000',
         },
-    }) 
+    })
 
 
     const setM3mbershipDescription = useContractWrite(setM3mbershipDescriptionConfig.config);
 
     useEffect(() => {
-        if (setupDomain.isSuccess){
+        if (setupDomain.isSuccess) {
             toast.success("setup successfully")
-            if(originalDescription === description){
+            if (originalDescription === description) {
                 router.push("/admin/" + oid);
             }
         }
     }, [setupDomain.isSuccess])
 
     useEffect(() => {
-        if(setM3mbershipDescription.isSuccess){
+        if (setM3mbershipDescription.isSuccess) {
             toast.success("M3mbership Rule Created Successfully: " + oid)
-            router.push("/admin/" + oid) 
-        } 
+            router.push("/admin/" + oid)
+        }
     }, [setM3mbershipDescription.isSuccess])
 
     useEffect(() => {
         getDescription();
     }, [oid])
     const handleCreate = () => {
-        if(setupDomain.isSuccess || fee === originalFee){
+        if (setupDomain.isSuccess || fee === originalFee) {
             toast.success("here yayay")
-            if(description !== originalDescription)
+            if (description !== originalDescription)
                 setM3mbershipDescription.write();
-        } else{
+        } else {
             setSubmitLoading(true);
             setupDomain?.write({
                 recklesslySetUnpreparedArgs: [
@@ -225,12 +225,12 @@ export default function Home() {
         }
     }
 
-    const  getDescription = async () => {
-            let originalDescription = await (await provider.getResolver(oid)).getText("M3mber Description");
-            setDescription(originalDescription);
-            setOriginalDescription(originalDescription);
+    const getDescription = async () => {
+        let originalDescription = await (await provider.getResolver(oid)).getText("M3mber Description");
+        setDescription(originalDescription);
+        setOriginalDescription(originalDescription);
     }
-    
+
     const handleStop = () => {
         //TODO: stop minting
         setStopLoading(true);
@@ -293,11 +293,16 @@ export default function Home() {
                             maxLength={1000}
                             placeholder="Describe what benefit this membership will provide" />
                     </div>
-                    <Button key="submit" loading={submitLoading} onClick={handleCreate}
-                        style={{ width: "200px", marginTop: 20 }}>
-                        {setupDomain.isSuccess ? "Set Record" : "Save"}
-                    </Button>
-
+                    <div style={{ display: "flex" }}>
+                        <Button key="submit" loading={submitLoading} onClick={handleCreate}
+                            style={{ width: "200px", marginTop: 20 }}>
+                            {setupDomain.isSuccess ? "Set Record" : "Save"}
+                        </Button>
+                        <Button colorStyle="blueSecondary" onClick={() => { router.push("/admin/" + oid) }}
+                            style={{ width: "200px", marginTop: 20, marginLeft: 10 }}>
+                            Cancel
+                        </Button>
+                    </div>
                 </Card>
 
             </Container>
