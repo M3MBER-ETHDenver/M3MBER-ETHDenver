@@ -7,6 +7,7 @@ import { Input, Button, Checkbox} from '@nextui-org/react';
 import { useRouter } from "next/router";
 import { EthIcon } from "../EthIcon";
 import { Fragment, useState } from 'react';
+import { provider } from '../../lib/ensdata';
 
 import {
     useAccount,
@@ -35,6 +36,7 @@ export default function CommunityInviteCard({...props}) {
     const [addrResolve, setAddrResolve] = useState(true)
     const { address, connector, isConnected } = useAccount()
     const [duration, setDuration] = useState(1);
+    const [description, setDescription] = useState("Loading...");
     const { communityName,
         ensDomain,
         memberNum,
@@ -121,8 +123,15 @@ export default function CommunityInviteCard({...props}) {
         }
     }, [isSuccess])
 
-    
-
+    useEffect(() => {
+        const fetchData = async () => {
+            let originalDescription = await (await provider.getResolver(ensDomain)).getText("M3mber Description");
+            setDescription(originalDescription);    
+        }        
+        fetchData()
+            // make sure to catch any error
+            .catch(console.error);
+    }, [ensDomain])
     const handleDurationChange = (value) => {
         setDuration(value);
     };
@@ -158,9 +167,7 @@ export default function CommunityInviteCard({...props}) {
                 }}>
                     <Text strong style={{ margin: "1px 0", fontSize: 32 }}>{"Become a member of"}</Text>
                     <Text strong style={{ marginTop:"-10px", fontSize: 32 }}>{ensDomain}</Text>
-
-                    <Text strong style={{marginTop:"10px" , fontSize: 16, marginRight:"20px" ,paddingRight:'200px'}}>Access to {ensDomain} community. All the members will have limited access of our team alpha update at nftychat channel.</Text>
-                    
+                    <Text strong style={{marginTop:"10px" , fontSize: 16, marginRight:"20px" ,paddingRight:'200px'}}>{description}</Text>
                 </div>
 
                 <div style={{

@@ -200,22 +200,6 @@ export default function Home() {
         }
     }
 
-    const handleResume = () => {
-        //TODO: resume minting
-        setSubmitLoading(true);
-        setTimeout(() => {
-            setSubmitLoading(false);
-        }, 1000);
-    }
-
-    const handleStop = () => {
-        //TODO: stop minting
-        setStopLoading(true);
-        setTimeout(() => {
-            setStopLoading(false);
-        }, 1000);
-    }
-
     const handleRuleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setRule(e.target.value);
     }
