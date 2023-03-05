@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useState } from "react";
 import { Card } from "antd";
 
@@ -6,13 +6,6 @@ export default function MembershipCard(props) {
     const { text, data } = props;
     //add loading functionality later
     const [loading, setLoading] = useState(false);
-    useEffect(() => {
-        setLoading(true);
-        if (props.data) {
-            setLoading(false);
-        }
-    }, [data])
-
     if (loading) {
         return (
             <Card style={{
