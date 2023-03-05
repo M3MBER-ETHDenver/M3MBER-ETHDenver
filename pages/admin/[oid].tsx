@@ -118,8 +118,8 @@ const columns: ColumnsType<DataType> = [
             },
             multiple: 1,
         },
-        render: (address: string) => {
-            if (address.length <= 11) {
+        render: (_, record) => {
+            if (record.name[0] != "Not Set") {
                 return (
                     <div>
                         <Tooltip title="Copy address to clipboard">
@@ -127,15 +127,34 @@ const columns: ColumnsType<DataType> = [
                                 style={{
                                     cursor: 'pointer', width: 150, height: 36, display: "flex", justifyContent: "center"
                                 }}
-                                onClick={() => navigator.clipboard.writeText(address)}
+                                onClick={() => navigator.clipboard.writeText(record.address)}
                             >
-                                {address}
+                                {record.name[0]}
                             </Tag>
                         </Tooltip>
                     </div>
                 )
             }
-            let truncated = address.substring(0, 4) + "..." + address.substring(address.length - 4, address.length);
+
+            if (record.address.length <= 11) {
+                return (
+                    <div>
+                        <Tooltip title="Copy address to clipboard">
+                            <Tag
+                                style={{
+                                    cursor: 'pointer', width: 150, height: 36, display: "flex", justifyContent: "center",
+                                    color: "#4E86F7", borderColor: "rgba(78,134,247, 0.2)"
+                                }}
+                                onClick={() => navigator.clipboard.writeText(record.address)}
+                                colorStyle="background"
+                            >
+                                {record.address}
+                            </Tag>
+                        </Tooltip>
+                    </div>
+                )
+            }
+            let truncated = record.address.substring(0, 4) + "..." + record.address.substring(record.address.length - 4, record.address.length);
             return (
                 <div>
                     <Tooltip title="Copy address to clipboard">
@@ -144,7 +163,7 @@ const columns: ColumnsType<DataType> = [
                                 cursor: 'pointer', width: 150, height: 36, display: "flex", justifyContent: "center",
                                 color: "#4E86F7", borderColor: "rgba(78,134,247, 0.2)"
                             }}
-                            onClick={() => navigator.clipboard.writeText(address)}
+                            onClick={() => navigator.clipboard.writeText(record.address)}
                             colorStyle="background"
                         >
                             {truncated.toLowerCase()}
