@@ -4,7 +4,8 @@ import { Table, Tooltip } from 'antd';
 import { Typography } from 'antd';
 import type { ColumnsType, TableProps } from 'antd/es/table';
 import { useAccount } from "wagmi";
-import { Input, Button } from 'antd';
+import { Input } from 'antd';
+import { Button } from "@ensdomains/thorin";
 import CommunityTreasuryCard from "../../components/communitySpace/CommunityTreasuryCard";
 import { domainData, subdomainDetails, provider } from "../../lib/ensdata";
 import { ensRegistrarAddr, ensRegistrarAbi } from '../../lib/constants';
@@ -393,6 +394,11 @@ function OrgPage({ Component, pageProps }) {
 
     }, [namesResult])
 
+    function handleShare() {
+        navigator.clipboard.writeText(window.location.origin + '/join/' + oid);
+        toast.success("Successfully copied share link!")
+    }
+
     return (
         <Container>
             <div style={{ width: "100%", display: "flex", justifyContent: "space-between" }}>
@@ -404,6 +410,7 @@ function OrgPage({ Component, pageProps }) {
                     {/* TODO: pass in the data for Membership Claimed */}
                     <MembershipCard text="Memership Claimed" data={"0"} />
                     <CommunityTreasuryCard data={summaryCardData} />
+                    <Button style={{ marginTop: 25 }} onClick={handleShare}>Share Invite Link</Button>
                 </section>
                 <section style={{ flex: "8 8 auto" }}>
                     <Table columns={columns} dataSource={communityPageSearchData} loading={tableLoading} />
