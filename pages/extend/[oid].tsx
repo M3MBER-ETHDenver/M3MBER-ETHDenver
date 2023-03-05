@@ -24,6 +24,8 @@ import {
     ensResolverAbi
 } from '../../lib/constants';
 import namehash from "@ensdomains/eth-ens-namehash";
+import {ethers} from "ethers";
+import keccak256 from "keccak256";
 
 export default function Extend(props) {
     const [oid, setOid] = useState("");
@@ -31,10 +33,14 @@ export default function Extend(props) {
     //TODO: hard coded data
     const [ensDomain, setEnsDomain] = useState("m3mber.eth");
     const [subname, setSubname] = useState("Julie.eth");
-    const [expirationdate, setExpirationdate] = useState(new Date("2023-03-06"));
+    //console.log(router.query.d)
+    const dateParts = router.query.d.split("-")
+    const [expirationdate, setExpirationdate] = useState(new Date(dateParts[0], dateParts[1] - 1, dateParts[2]));
     const [addrResolve, setAddrResolve] = useState(true);
     //note that this date is one month ahead of expirationdate by default
-    const [newExpirationdate, setNewExpirationdate] = useState(new Date("2023-04-06"));
+    let newDate = new Date(expirationdate);
+    newDate.setMonth(1 + expirationdate.getMonth());
+    const [newExpirationdate, setNewExpirationdate] = useState(newDate);
     const [fee, setFee] = useState("0.05");
     const { address, connector, isConnected } = useAccount();
     const [duration, setDuration] = useState(1);
@@ -45,6 +51,22 @@ export default function Extend(props) {
         functionName: 'names',
         args: [namehash.hash(ensDomain)]
     });
+
+    const { config } = usePrepareContractWrite({
+        address: M3mberRegistrarAddrGoerli,
+        abi: M3mberRegistrarAbiGoerli,
+        functionName: 'renew',
+        args: [
+            namehash.hash(ensDomain), // parentNode
+            "0x"+keccak256(subname.split(".")[0]).toString('hex'),
+            duration
+        ],
+        overrides: {
+            gasLimit: '1000000',
+            value: data? data["registrationFee"].mul(duration):0
+        },
+    })
+    const renewName = useContractWrite(config)
 
     const handleDurationChange = (value) => {
         setDuration(value);
@@ -61,8 +83,11 @@ export default function Extend(props) {
     useEffect(() => {
         if (router.query.oid != undefined) {
             setOid(typeof (router.query.oid) == 'string' ? router.query.oid : router.query.oid[0]);
+            setEnsDomain(oid.split(".")[1]+".eth")
+            setSubname(oid)
         }
     })
+
 
 
     return (
@@ -120,13 +145,13 @@ export default function Extend(props) {
                                 </div>
                                 <div style={{ flex: "0 0 100px" }}>
                                     <p style={{ color: "#9B9BA5", marginBottom: 10 }}>Period</p>
-                                    <Input size="large" disabled placeholder="Montly" style={{ height: 50 }} />
+                                    <Input size="large" style={{color:"black"}} disabled placeholder="Montly" style={{ height: 50 }} />
                                 </div>
                             </div>
                             <div style={{ display: "flex", marginBottom: 60 }}>
                                 <div style={{ flex: "1 1 auto", marginRight: 15 }}>
                                     <p style={{ color: "#9B9BA5", marginBottom: 10 }}>New Expiration Date</p>
-                                    <Input size="large" disabled value={newExpirationdate.toDateString()} style={{ height: 50 }} />
+                                    <Input size="large" style={{color:"black"}} disabled value={newExpirationdate.toDateString()} style={{ height: 50 }} />
                                 </div>
                                 <div style={{ flex: "1 1 auto" }}>
                                     <p style={{ color: "#9B9BA5", marginBottom: 10 }}>Cost</p>
@@ -135,18 +160,18 @@ export default function Extend(props) {
                                         stringMode
                                         className="fee-input"
                                         prefix={<img src="/eth.png" alt="etherem" style={{ height: 14, width: "100%" }} />}
-                                        value={fee}
-                                        onChange={handleFeeChange}
-                                        min="0" defaultValue="0.05" step="0.01"
+                                        value={ethers.utils.formatEther(data? data["registrationFee"].mul(duration):0).toString()}
+                                        onChange={()=>{}}
+                                        
                                     />
                                 </div>
                             </div>
                             <div style={{ display: "flex" }}>
-                                <Button style={{ marginRight: 20 }}>Extend</Button>
+                                <Button onClick={()=>{renewName.write()}} style={{ marginRight: 20 }}>Extend</Button>
                                 <Button colorStyle="blueSecondary"
                                     onClick={() => {
                                         router.push("/my/plans");
-                                    }}>Cancel</Button>
+                                    }}>Back</Button>
                             </div>
                         </div>
                     </div>

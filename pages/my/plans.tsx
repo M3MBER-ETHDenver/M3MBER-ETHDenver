@@ -107,7 +107,7 @@ export default function MyPlans({ Component, pageProps }) {
                 */
                 return (
                 <Space>
-                    <Button size="small" onClick={()=>{}}>Extend</Button>
+                    <Button size="small" onClick={()=>{router.push("/extend/"+record.domain+"?d="+new Date(new Date(record.expirationdate).getTime() - (new Date(record.expirationdate).getTimezoneOffset() * 60000 )).toISOString().split("T")[0])}}>Extend</Button>
                     <Button size="small" onClick={()=>{window.open(`https://testnets.opensea.io/assets/goerli/0x060f1546642e67c485d56248201fea2f9ab1803c/${record.id.toString()}/transfer`)}}>Transfer</Button>
                     <Button size="small" onClick={()=>{window.open(`https://testnets.opensea.io/assets/goerli/0x060f1546642e67c485d56248201fea2f9ab1803c/${record.id.toString()}`)}}>Sell</Button>
                 </Space>)
