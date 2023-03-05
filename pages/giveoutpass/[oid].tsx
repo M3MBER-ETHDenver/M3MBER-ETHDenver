@@ -126,7 +126,7 @@ function ManualGive() {
             ensResolverGoerli, // resolver
             0,
             [months],
-            [!receiveraddress?[]:[resolver.encodeFunctionData("setAddr(bytes32,address)", [ namehash.hash(subname+"."+oid), receiveraddress ]), resolver.encodeFunctionData("setText(bytes32,string,string)", [ namehash.hash(subname+"."+oid), "M3MBER", "TRUE" ])]], // records
+            [!receiveraddress ? [] : [resolver.encodeFunctionData("setAddr(bytes32,address)", [namehash.hash(subname + "." + oid), receiveraddress]), resolver.encodeFunctionData("setText(bytes32,string,string)", [namehash.hash(subname + "." + oid), "M3MBER", "TRUE"])]], // records
 
         ],
         overrides: {
@@ -137,18 +137,18 @@ function ManualGive() {
     console.log(giveOutNameConfig)
 
     const giveOutName = useContractWrite(giveOutNameConfig.config)
-    
+
     const { isLoading, isSuccess } = useWaitForTransaction({
         hash: giveOutName.data?.hash,
-      })
-    
-    useEffect(() =>{
-        if(!isLoading && isSuccess){
+    })
+
+    useEffect(() => {
+        if (!isLoading && isSuccess) {
             setSubmitLoading(false);
             toast.success("Name give out successful!");
         }
-    },[isSuccess])
-    
+    }, [isSuccess])
+
 
     const handleGive = () => {
         giveOutName.write();
@@ -209,7 +209,7 @@ function ManualGive() {
             </div>
             <div style={{ display: "flex" }}>
                 <Button key="submit" loading={submitLoading} onClick={handleGive}
-                    style={{ width: "200px", marginTop: 20 }}> 
+                    style={{ width: "200px", marginTop: 20 }}>
                     {"Give"}
                 </Button>
                 <Button colorStyle="blueSecondary" onClick={() => { router.push("/admin/" + oid) }}
@@ -224,7 +224,7 @@ function ManualGive() {
 
 function ImportCSV() {
 
-    
+
     const [oid, setOid] = useState("");
     useEffect(() => {
         if (router.query.oid != undefined) {
@@ -253,7 +253,7 @@ function ImportCSV() {
             ensResolverGoerli, // resolver
             0,
             durations,
-            !addresses?[]:records//records, // records
+            !addresses ? [] : records//records, // records
 
         ],
         overrides: {
@@ -270,21 +270,21 @@ function ImportCSV() {
 
     let resolver = new ethers.utils.Interface(ensResolverAbiGoerli);
 
-    const setData = (data)=>{
+    const setData = (data) => {
         console.log(data);
         let alldata = [];
         let newAddresses = [];
         let newSubnames = [];
         let newDurations = [];
         let newRecords = [];
-        for(let i = 0; i < data.length; i++){
-            if(data[i]["Address"] && data[i]["Address"].includes("0x")){
+        for (let i = 0; i < data.length; i++) {
+            if (data[i]["Address"] && data[i]["Address"].includes("0x")) {
                 alldata.push(data[i])
                 newAddresses.push(data[i]["Address"])
                 newSubnames.push(data[i]["Subdomain"])
                 newDurations.push(parseInt(data[i]["Months"]))
                 //newRecords.push([resolver.encodeFunctionData("setAddr(bytes32,address)", [ namehash.hash(data[i]["Subdomain"]+"."+oid), data[i]["Address"] ])]);//[resolver.encodeFunctionData("setAddr(bytes32,address)", [ namehash.hash(data[i]["Subdomain"]+"."+oid), data[i]["Address"] ]), resolver.encodeFunctionData("setText(bytes32,string,string)", [ namehash.hash(data[i]["Subdomain"]+"."+oid), "M3MBER", "TRUE" ])])
-                const oneRecords = resolver.encodeFunctionData("setAddr(bytes32,address)", [ namehash.hash(data[i]["Subdomain"]+"."+oid), data[i]["Address"] ])+resolver.encodeFunctionData("setText(bytes32,string,string)", [ namehash.hash(data[i]["Subdomain"]+"."+oid), "M3MBER", "TRUE"])
+                const oneRecords = resolver.encodeFunctionData("setAddr(bytes32,address)", [namehash.hash(data[i]["Subdomain"] + "." + oid), data[i]["Address"]]) + resolver.encodeFunctionData("setText(bytes32,string,string)", [namehash.hash(data[i]["Subdomain"] + "." + oid), "M3MBER", "TRUE"])
                 newRecords.push([])
             }
         }
@@ -298,20 +298,20 @@ function ImportCSV() {
     }
     const handleDownload = async () => {
         try {
-          const response = await fetch('/api/download');
-          const blob = await response.blob();
-          const url = window.URL.createObjectURL(new Blob([blob]));
-          const link = document.createElement('a');
-          link.href = url;
-          link.setAttribute('download', 'm3mber-sample.csv');
-          document.body.appendChild(link);
-          link.click();
-          link.parentNode.removeChild(link);
+            const response = await fetch('/api/download');
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(new Blob([blob]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'm3mber-sample.csv');
+            document.body.appendChild(link);
+            link.click();
+            link.parentNode.removeChild(link);
         } catch (error) {
-          console.error(error);
+            console.error(error);
         }
-      };
-    
+    };
+
     const handleUpload = (info) => {
         console.log(info)
         setLoading(true);
@@ -343,27 +343,27 @@ function ImportCSV() {
 
     return (
         <>
-        <div style={{ display: "flex", marginBottom:"20px" }}>
-            <Upload
-                beforeUpload={csvFileFilter}
-                onChange={handleUpload}
-                showUploadList={false}
-                accept=".csv"
-            >
-                <Button style={{width: "200px"}} >Upload CSV file</Button>
-                
-            </Upload>
-            <Button onClick={handleDownload} style={{width: "200px"}} >Download Sample</Button>
+            <div style={{ display: "flex", marginBottom: "20px", justifyContent: "space-between" }}>
+                <Upload
+                    beforeUpload={csvFileFilter}
+                    onChange={handleUpload}
+                    showUploadList={false}
+                    accept=".csv"
+                >
+                    <Button style={{ width: "200px" }} >Upload CSV file</Button>
 
-            <Button key="submit" loading={submitLoading} onClick={handleGive}
-                style={{ width: "200px",marginLeft: 10 }}>
-                {"Give"}
-            </Button>
-            <Button colorStyle="blueSecondary" onClick={() => { router.push("/admin/" + oid) }}
-                style={{ width: "200px", marginLeft: 10 }}>
-                Back
-            </Button>
-                </div>
+                </Upload>
+                <Button onClick={handleDownload} style={{ width: "200px", marginLeft: 10 }} >Download Sample</Button>
+
+                <Button key="submit" loading={submitLoading} onClick={handleGive}
+                    style={{ width: "200px", marginLeft: 10 }}>
+                    {"Give"}
+                </Button>
+                <Button colorStyle="blueSecondary" onClick={() => { router.push("/admin/" + oid) }}
+                    style={{ width: "200px", marginLeft: 10 }}>
+                    Back
+                </Button>
+            </div>
             <Table dataSource={csvData} columns={columns} loading={loading} />
         </>
     );
