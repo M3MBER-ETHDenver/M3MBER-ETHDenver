@@ -137,12 +137,22 @@ function ManualGive() {
     console.log(giveOutNameConfig)
 
     const giveOutName = useContractWrite(giveOutNameConfig.config)
-
     
-
+    const { isLoading, isSuccess } = useWaitForTransaction({
+        hash: giveOutName.data?.hash,
+      })
+    
+    useEffect(() =>{
+        if(!isLoading && isSuccess){
+            setSubmitLoading(false);
+            toast.success("Name give out successful!");
+        }
+    },[isSuccess])
+    
 
     const handleGive = () => {
         giveOutName.write();
+        setSubmitLoading(true);
     }
 
     const handleNameChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -199,7 +209,7 @@ function ManualGive() {
             </div>
             <div style={{ display: "flex" }}>
                 <Button key="submit" loading={submitLoading} onClick={handleGive}
-                    style={{ width: "200px", marginTop: 20 }}>
+                    style={{ width: "200px", marginTop: 20 }}> 
                     {"Give"}
                 </Button>
                 <Button colorStyle="blueSecondary" onClick={() => { router.push("/admin/" + oid) }}
@@ -286,7 +296,22 @@ function ImportCSV() {
         console.log(subnames, addresses, durations)
         setCsvData(alldata);
     }
-
+    const handleDownload = async () => {
+        try {
+          const response = await fetch('/api/download');
+          const blob = await response.blob();
+          const url = window.URL.createObjectURL(new Blob([blob]));
+          const link = document.createElement('a');
+          link.href = url;
+          link.setAttribute('download', 'm3mber-sample.csv');
+          document.body.appendChild(link);
+          link.click();
+          link.parentNode.removeChild(link);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+    
     const handleUpload = (info) => {
         console.log(info)
         setLoading(true);
@@ -328,6 +353,8 @@ function ImportCSV() {
                 <Button style={{width: "200px"}} >Upload CSV file</Button>
                 
             </Upload>
+            <Button onClick={handleDownload} style={{width: "200px"}} >Download Sample</Button>
+
             <Button key="submit" loading={submitLoading} onClick={handleGive}
                 style={{ width: "200px",marginLeft: 10 }}>
                 {"Give"}
