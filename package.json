@@ -27,6 +27,7 @@
     "bootstrap": "^5.2.2",
     "ethers": "5.7.2",
     "graphql": "^16.6.0",
+    "keccak256": "^1.0.6",
     "next": "12.1.6",
     "papaparse": "^5.4.0",
     "react": "17",
