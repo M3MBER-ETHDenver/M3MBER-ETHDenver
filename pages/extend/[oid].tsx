@@ -50,6 +50,7 @@ export default function Extend(props) {
     const [fee, setFee] = useState("0.05");
     const { address, connector, isConnected } = useAccount();
     const [duration, setDuration] = useState(1);
+    const [submitLoading, setSubmitLoading] = useState(false);
 
     useEffect(()=>{
         if(router.query.d){
@@ -84,6 +85,10 @@ export default function Extend(props) {
     })
     const renewName = useContractWrite(config)
 
+    const { isLoading, isSuccess } = useWaitForTransaction({
+        hash: renewName.data?.hash,
+    })
+
     const handleDurationChange = (value) => {
         setDuration(value);
         //at here, the new date is updated to be the current date + value*month
@@ -104,7 +109,18 @@ export default function Extend(props) {
         }
     })
 
+    useEffect(() => {
+        if (!isLoading && isSuccess) {
+            setSubmitLoading(false);
+            toast.success("M3mbership extend successful!");
+        }
+    }, [isSuccess])
 
+
+    const handleRenew = () => {
+        renewName.write();
+        setSubmitLoading(true);
+    }
 
     return (
         <div className={styles.container} style={{ overflow: "hidden" }}>
@@ -183,7 +199,7 @@ export default function Extend(props) {
                                 </div>
                             </div>
                             <div style={{ display: "flex" }}>
-                                <Button onClick={()=>{renewName.write()}} style={{ marginRight: 20 }}>Extend</Button>
+                                <Button loading={submitLoading} onClick={()=>{handleRenew()}} style={{ marginRight: 20 }}>Extend</Button>
                                 <Button colorStyle="blueSecondary"
                                     onClick={() => {
                                         router.push("/my/plans");
