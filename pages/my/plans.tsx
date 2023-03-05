@@ -30,6 +30,7 @@ export interface DataType {
     //TODO: I changed this from string to date, rember to update data
     expirationdate: Date;
     index: string;
+    id: number;
 }
 
 
