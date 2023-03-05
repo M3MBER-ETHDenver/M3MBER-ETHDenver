@@ -13,7 +13,8 @@ export default function Home({ ...props }) {
       backgroundSize: "cover",
       backgroundColor: "#4E86F7",
       width: "100vw",
-      height: "800px"
+      height: "850px",
+      minHeight: "100%"
     }
     }>
       <Head>

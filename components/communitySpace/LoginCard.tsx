@@ -18,26 +18,23 @@ export default function LoginCard({ ...props }) {
 
     const [displayText, setDisplayText] = useState("Please Connect Wallet");
     const [displayText2, setDisplayText2] = useState("Please Connect Wallet");
+    const [connected, setConneted] = useState(false);
 
     const [input, setInput] = useState("");
 
     useEffect(() => {
         if (isConnected) {
             setDisplayText("Start your web3 membership ➡️")
+            setDisplayText2("Check out my current membership")
+            setConneted(true);
         }
         else {
             setDisplayText("Please Connect Wallet")
-        }
-    }, [isConnected])
-
-    useEffect(() => {
-        if (isConnected) {
-            setDisplayText2("Check out my current membership")
-        }
-        else {
             setDisplayText2("Please Connect Wallet")
+            setConneted(false);
         }
-    }, [isConnected])
+
+    }, [isConnected]);
 
 
     const isApprovedForAll = useContractRead({
@@ -68,24 +65,6 @@ export default function LoginCard({ ...props }) {
             namehash.hash(input.toLowerCase() + ".eth"),
         ]
     })
-
-    // useEffect(() => {
-    //     if (isApprovedForAll.data || isCanUnwrapBurnt.data) {
-    //         // toast.error("TODO: Already grant access but Create Mint Rules button still go to wrong modal. mintRuleAccess is still false.");
-    //         setMintRuleAccess(true);
-
-    //         console.log(isCanUnwrapBurnt.data);
-    //         console.log(domainName);
-    //     } else {
-    //         setMintRuleAccess(false);
-    //     }
-    // }, [])
-
-    // useEffect(() => {
-    //     if (isCanUnwrapBurnt.data) {
-    //         setMintRuleAccess(true);
-    //     }
-    // }, [isCanUnwrapBurnt.data])
 
 
     function adminRedirect() {
@@ -128,7 +107,7 @@ export default function LoginCard({ ...props }) {
                     className='host-input'
                 />
                 <Button onClick={() => { adminRedirect(); }}
-                    disabled={!isConnected || !input || input.length == 0}
+                    disabled={!connected || !input || input.length == 0}
                     style={{ borderRadius: 30, marginTop: 10 }}
                     colorStyle="blueGradient">
                     {displayText}
@@ -142,7 +121,7 @@ export default function LoginCard({ ...props }) {
                 <Text style={{ fontSize: 24, fontWeight: 500, display: "block" }}>
                     Member
                 </Text>
-                <Button onClick={() => { router.push("/my/plans") }} disabled={!isConnected}
+                <Button onClick={() => { router.push("/my/plans") }} disabled={!connected}
                     style={{ height: 50, borderRadius: 30, marginTop: 10 }}
                     colorStyle="accentGradient">
                     {displayText2}
