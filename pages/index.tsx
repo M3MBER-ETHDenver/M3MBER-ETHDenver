@@ -14,7 +14,7 @@ export default function Home({ ...props }) {
       backgroundColor: "#4E86F7",
       width: "100vw",
       height: "850px",
-      minHeight: "100%"
+      minHeight: "100vh"
     }
     }>
       <Head>
