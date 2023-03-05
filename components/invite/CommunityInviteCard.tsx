@@ -139,17 +139,15 @@ export default function CommunityInviteCard({ ...props }) {
     return (
         <div
             style={{
-                width: 604, height: 556, overflow: "hidden", borderRadius: "10px", backgroundColor: "white",
+                width: 604, overflow: "hidden", borderRadius: "10px", backgroundColor: "white",
                 position: "sticky", top: "30px"
             }}
         >
 
-            <div style={{ width: "100%", height: 370, position: "relative" }}>
-                <div style={{
-                    marginTop: 40, marginLeft: 40, marginRight: 40,
-                    width: 140, height: 140, border: "5px white"
-                }}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="79" height="79" viewBox="0 0 79 79" fill="none">
+            <div style={{ width: "100%", padding: 50 }}>
+                <div style={{ display: "flex", marginBottom: 30 }}>
+                    <svg style={{ width: 100, height: 100 }}
+                        xmlns="http://www.w3.org/2000/svg" width="79" height="79" viewBox="0 0 79 79" fill="none">
                         <g clipPath="url(#clip0_31_2087)">
                             <path d="M39.467 6.58333C21.297 6.58333 6.55029 21.33 6.55029 39.5C6.55029 57.67 21.297 72.4167 39.467 72.4167C57.637 72.4167 72.3836 57.67 72.3836 39.5C72.3836 21.33 57.637 6.58333 39.467 6.58333ZM51.3499 27.4525C54.872 27.4525 57.7028 30.2833 57.7028 33.8054C57.7028 37.3275 54.872 40.1583 51.3499 40.1583C47.8278 40.1583 44.997 37.3275 44.997 33.8054C44.964 30.2833 47.8278 27.4525 51.3499 27.4525ZM31.5999 22.2517C35.879 22.2517 39.3682 25.7408 39.3682 30.02C39.3682 34.2992 35.879 37.7883 31.5999 37.7883C27.3207 37.7883 23.8315 34.2992 23.8315 30.02C23.8315 25.7079 27.2878 22.2517 31.5999 22.2517ZM31.5999 52.3046V64.6483C23.6999 62.1796 17.4457 56.09 14.6807 48.3217C18.137 44.635 26.7611 42.7587 31.5999 42.7587C33.3445 42.7587 35.5499 43.0221 37.854 43.4829C32.4557 46.3467 31.5999 50.1321 31.5999 52.3046ZM39.467 65.8333C38.5782 65.8333 37.7224 65.8004 36.8665 65.7017V52.3046C36.8665 47.6304 46.544 45.2933 51.3499 45.2933C54.872 45.2933 60.9615 46.5771 63.9899 49.0787C60.1386 58.855 50.6257 65.8333 39.467 65.8333Z" fill="#5686E1" />
                         </g>
@@ -159,21 +157,25 @@ export default function CommunityInviteCard({ ...props }) {
                             </clipPath>
                         </defs>
                     </svg>
+                    <div style={{
+                        width: "100%", marginLeft: 20,
+                        display: "flex", flexDirection: "column", alignItems: "left"
+                    }}>
+                        <Text strong style={{ margin: "1px 0", fontSize: 32 }}>{"Become a member of"}</Text>
+                        <Text strong style={{ marginTop: "-10px", fontSize: 32 }}>{ensDomain}</Text>
+                    </div>
                 </div>
 
-                <div style={{
-                    width: "100%", position: "absolute", top: "0px", left: 130,
-                    display: "flex", flexDirection: "column", alignItems: "left"
-                }}>
-                    <Text strong style={{ margin: "1px 0", fontSize: 32 }}>{"Become a member of"}</Text>
-                    <Text strong style={{ marginTop: "-10px", fontSize: 32 }}>{ensDomain}</Text>
-                    <Text strong style={{ marginTop: "10px", fontSize: 16, marginRight: "20px", paddingRight: '200px' }}>{description}</Text>
-                </div>
+                <Text strong style={{
+                    marginLeft: 10, fontSize: 16, marginBottom: 30, display: "block",
+                    marginRight: "20px", paddingRight: '200px'
+                }}>{description}</Text>
+
+
 
                 <div style={{
                     justifyContent: 'space-between',
-                    width: "100%", position: "absolute", top: 300,
-                    display: "flex", flexDirection: "column", alignItems: "center"
+                    width: "100%"
                 }}>
 
                     <div style={{
@@ -182,11 +184,11 @@ export default function CommunityInviteCard({ ...props }) {
                         borderRadius: '12px',
                         background: '#f5f5f5',
                         justifyContent: 'space-between',
-                        width: 390,
+                        width: 500,
                         marginBottom: "20px"
                     }}>
                         <div style={{ marginRight: '16px', marginLeft: "16px", fontWeight: "500" }}>{ensDomain} - Monthly</div>
-                        <Select size="large" style={{ width: "160px" }} value={duration} onChange={handleDurationChange}
+                        <Select size="large" style={{ width: 106 }} value={duration} onChange={handleDurationChange}
                             options={[
                                 { value: 1, label: '1 Month' },
                                 { value: 2, label: '2 Months' },
@@ -214,18 +216,19 @@ export default function CommunityInviteCard({ ...props }) {
                         catch {
 
                         }
-                    }} style={{ width: 260 }}
-
+                    }} style={{ width: 373 }}
                         labelRight={"." + ensDomain}
                         placeholder=""
                     />
 
-                    <Button.Group>
-                        <Button onClick={() => registerSubname.write?.({})} disabled={!isConnected || !input || input.length == 0 || !registerSubname.write || registerSubname.isLoading} color="primary" style={{ width: 275, height: 43, marginTop: "10px" }} >
+                    <Button.Group css={{ margin: "20px 0 0 0" }}>
+                        <Button css={{ width: 400 }}
+                            onClick={() => registerSubname.write?.({})} disabled={!isConnected || !input || input.length == 0 || !registerSubname.write || registerSubname.isLoading} color="primary"  >
                             {isLoading ? 'Minting...' : "Claim"}
                         </Button>
 
-                        <Button color="primary" disabled={!isConnected || !input || input.length == 0 || !registerSubname.write || registerSubname.isLoading} style={{ width: 50, height: 43, marginTop: "10px" }}>
+                        <Button css={{ width: 100 }}
+                            color="primary" disabled={!isConnected || !input || input.length == 0 || !registerSubname.write || registerSubname.isLoading} >
 
                             {ethers.utils.formatEther(data ? data["registrationFee"].mul(duration) : 0).toString() + " ETH"}
                         </Button>
