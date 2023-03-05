@@ -28,7 +28,6 @@ export default function CommunityTreasuryCard(props) {
     const {
         communityName,
         ensDomain,
-        createdDate,
         memberNum,
         backgroundSrc,
         avatarSrc,
@@ -50,7 +49,7 @@ export default function CommunityTreasuryCard(props) {
 
     useEffect(() => {
         setLoading(true);
-        if (props.data.ensDomain && props.data.createdDate && props.data.avatarSrc) {
+        if (props.data.ensDomain) {
             setLoading(false);
         }
     }, [props.data])

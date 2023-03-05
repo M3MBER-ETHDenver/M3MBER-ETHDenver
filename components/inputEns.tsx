@@ -12,7 +12,6 @@ function InputEns({...props}) {
   type SummaryCardData = {
     communityName: string;
     ensDomain: string;
-    createdDate: string;
     memberNum: number;
     backgroundSrc: string;
     avatarSrc: string;
@@ -22,7 +21,6 @@ const summaryCardData: SummaryCardData =
 {
     communityName: "Flamingle Labs",
     ensDomain: "flamingle.eth",
-    createdDate: "Jan 12, 2023",
     memberNum: 10,
     backgroundSrc: "/img/comm_bg_temp.png",
     avatarSrc: "/img/comm_avatar_temp.png",

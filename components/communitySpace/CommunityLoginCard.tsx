@@ -13,7 +13,6 @@ function handleSubdomain(event: any) {
 export default function CommunityCard({...props}) {
     const { communityName,
         ensDomain,
-        createdDate,
         memberNum,
         backgroundSrc,
         avatarSrc } = props.data;
@@ -40,7 +39,7 @@ export default function CommunityCard({...props}) {
                 }}>
                     <Text style={{fontSize: 18, color: "gray"}}>You're invited to join</Text>
                     <Title level={2} style={{ margin: "6px 0" }}>{communityName}</Title>
-                    <Text style={{ margin: "3px 0 30px 0", fontSize: 16 }}>Created <b>{createdDate} · {memberNum}</b> Members</Text>
+                    <Text style={{ margin: "3px 0 30px 0", fontSize: 16 }}>{memberNum} Members</Text>
 
                 </div>
 

@@ -12,7 +12,6 @@ export default function CommunitySummaryCard({ ...props }) {
 
     const { communityName,
         ensDomain,
-        createdDate,
         memberNum,
         backgroundSrc,
         avatarSrc,
@@ -27,7 +26,7 @@ export default function CommunitySummaryCard({ ...props }) {
 
     useEffect(() => {
         setLoading(true);
-        if (props.data.ensDomain && props.data.createdDate && props.data.avatarSrc) {
+        if (props.data.ensDomain ) {
             setLoading(false);
         }
     }, [props.data])
@@ -87,7 +86,6 @@ export default function CommunitySummaryCard({ ...props }) {
                 }}>
                     <Title level={3} style={{ margin: "6px 0" }}>{communityName}</Title>
                     <Text strong style={{ margin: "6px 0", fontSize: 16 }}>{ensDomain}</Text>
-                    <Text style={{ margin: "6px 0 30px 0", fontSize: 16 }}>Created <b>{createdDate} · {memberNum}</b> Members</Text>
 
 
 

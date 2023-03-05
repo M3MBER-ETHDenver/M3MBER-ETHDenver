@@ -227,7 +227,6 @@ export async function domainData(domainName) {
     const result: SummaryCardData = {
         communityName: communityName,
         ensDomain: domainName,
-        createdDate: time !== null ? new Date(time.data.registrations[0].registrationDate * 1000).toDateString() : null,
         memberNum: subdomainCount,
         backgroundSrc: "/img/comm_bg_temp.png",
         avatarSrc: avatar,

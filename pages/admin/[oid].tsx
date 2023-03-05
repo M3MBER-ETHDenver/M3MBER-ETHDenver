@@ -34,7 +34,6 @@ import { Tag } from "@ensdomains/thorin";
 export type SummaryCardData = {
     communityName: string;
     ensDomain: string;
-    createdDate: string;
     memberNum: number;
     backgroundSrc: string;
     avatarSrc: string;
@@ -46,7 +45,6 @@ export type SummaryCardData = {
 const defaultCardData: SummaryCardData = {
     communityName: "",
     ensDomain: "",
-    createdDate: "",
     memberNum: 0,
     backgroundSrc: "",
     avatarSrc: "",

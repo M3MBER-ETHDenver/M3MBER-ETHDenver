@@ -37,7 +37,6 @@ export default function CommunityInviteCard({...props}) {
     const [duration, setDuration] = useState(1);
     const { communityName,
         ensDomain,
-        createdDate,
         memberNum,
         backgroundSrc,
         avatarSrc,

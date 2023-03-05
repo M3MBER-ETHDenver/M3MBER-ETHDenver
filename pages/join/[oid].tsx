@@ -13,7 +13,6 @@ export default function Home() {
     const defaultCardData : SummaryCardData = {
         communityName: "",
         ensDomain: "",
-        createdDate: "",
         memberNum: 0,
         backgroundSrc: "",
         avatarSrc: "",
