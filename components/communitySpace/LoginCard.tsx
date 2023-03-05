@@ -101,7 +101,15 @@ export default function LoginCard({ ...props }) {
                     label=""
                     placeholder="Create or manage your domain here"
                     value={input}
-                    onChange={(e) => { setInput(e.target.value) }}
+                    onChange={(e) => { 
+                        try{
+                            namehash.hash(e.target.value.toLowerCase() + ".eth")
+                            setInput(e.target.value) 
+                        }
+                        catch{
+                            
+                        }
+                    }}
                     suffix=".eth"
                     size="large"
                     className='host-input'
