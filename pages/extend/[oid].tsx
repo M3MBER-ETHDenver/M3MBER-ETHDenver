@@ -34,7 +34,13 @@ export default function Extend(props) {
     const [ensDomain, setEnsDomain] = useState("m3mber.eth");
     const [subname, setSubname] = useState("Julie.eth");
     //console.log(router.query.d)
-    const dateParts = router.query.d.split("-")
+    let dateParts = []
+    if(router.query.d){
+        dateParts = router.query.d.split("-")
+    }
+    else{
+        dateParts = ["0000","00","00"]
+    }
     const [expirationdate, setExpirationdate] = useState(new Date(dateParts[0], dateParts[1] - 1, dateParts[2]));
     const [addrResolve, setAddrResolve] = useState(true);
     //note that this date is one month ahead of expirationdate by default
@@ -44,6 +50,16 @@ export default function Extend(props) {
     const [fee, setFee] = useState("0.05");
     const { address, connector, isConnected } = useAccount();
     const [duration, setDuration] = useState(1);
+
+    useEffect(()=>{
+        if(router.query.d){
+            dateParts = router.query.d.split("-");
+            setExpirationdate(new Date(dateParts[0], dateParts[1] - 1, dateParts[2]));
+            let newDate = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]);
+            newDate.setMonth(1 + newDate.getMonth());
+            setNewExpirationdate(newDate)
+        }
+    }, [router.query.d])
 
     const { data: data } = useContractRead({
         address: M3mberRegistrarAddrGoerli,
