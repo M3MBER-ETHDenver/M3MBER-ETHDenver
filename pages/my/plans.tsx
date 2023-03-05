@@ -116,12 +116,7 @@ export default function MyPlans({ Component, pageProps }) {
         },
     ];
 
-    useEffect(() => {
-        if (router.query.oid != undefined) {
-            setOid(typeof (router.query.oid) == 'string' ? router.query.oid : router.query.oid[0]);
-        }
-    })
-
+    
     useEffect(() => {
        (async ()=>{
         if(address){
