@@ -163,6 +163,9 @@ export const myNamesData = async (address) =>{
 
     const filteredData = [];
     //console.log(data)
+    if(!data.data.account){
+        return [];
+    }
     const wrappedDomains = data.data.account.wrappedDomains;
     for(let i = 0; i < wrappedDomains.length; i++){
         if(wrappedDomains[i].domain.resolver.texts && wrappedDomains[i].domain.resolver.texts.includes("M3MBER")){
