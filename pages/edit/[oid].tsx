@@ -211,7 +211,6 @@ export default function Home() {
     }, [oid])
     const handleCreate = () => {
         if (setupDomain.isSuccess || fee === originalFee) {
-            toast.success("here yayay")
             if (description !== originalDescription)
                 setM3mbershipDescription.write();
         } else {
