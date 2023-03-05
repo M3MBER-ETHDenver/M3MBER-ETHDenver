@@ -214,7 +214,7 @@ function ManualGive() {
                 </Button>
                 <Button colorStyle="blueSecondary" onClick={() => { router.push("/admin/" + oid) }}
                     style={{ width: "200px", marginTop: 20, marginLeft: 10 }}>
-                    Cancel
+                    Back
                 </Button>
             </div>
 
@@ -361,7 +361,7 @@ function ImportCSV() {
             </Button>
             <Button colorStyle="blueSecondary" onClick={() => { router.push("/admin/" + oid) }}
                 style={{ width: "200px", marginLeft: 10 }}>
-                Cancel
+                Back
             </Button>
                 </div>
             <Table dataSource={csvData} columns={columns} loading={loading} />
