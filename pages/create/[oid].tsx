@@ -186,7 +186,6 @@ export default function Home() {
 
     const handleCreate = () => {
         if (setupDomain.isSuccess) {
-            toast.success("here yayay")
             setM3mbershipDescription.write();
             router.push(`/admin/${oid}`)
         } else {
