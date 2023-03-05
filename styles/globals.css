@@ -163,3 +163,11 @@ small {
   background-color: rgba(78,134,247, 0.4);
   color: rgba(78,134,247);
 }
+
+.extend-select .ant-select-selector {
+  height: 50px!important;
+}
+
+.extend-select .ant-select-selection-item::after {
+  padding-top: 10px;
+}
