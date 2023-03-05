@@ -176,13 +176,13 @@ export default function Extend(props) {
                                 </div>
                                 <div style={{ flex: "0 0 100px" }}>
                                     <p style={{ color: "#9B9BA5", marginBottom: 10 }}>Period</p>
-                                    <Input size="large" style={{color:"black"}} disabled placeholder="Montly" style={{ height: 50 }} />
+                                    <Input size="large" disabled placeholder="Montly" style={{ height: 50 }} />
                                 </div>
                             </div>
                             <div style={{ display: "flex", marginBottom: 60 }}>
                                 <div style={{ flex: "1 1 auto", marginRight: 15 }}>
                                     <p style={{ color: "#9B9BA5", marginBottom: 10 }}>New Expiration Date</p>
-                                    <Input size="large" style={{color:"black"}} disabled value={newExpirationdate.toDateString()} style={{ height: 50 }} />
+                                    <Input size="large" disabled value={newExpirationdate.toDateString()} style={{ height: 50 }} />
                                 </div>
                                 <div style={{ flex: "1 1 auto" }}>
                                     <p style={{ color: "#9B9BA5", marginBottom: 10 }}>Cost</p>
