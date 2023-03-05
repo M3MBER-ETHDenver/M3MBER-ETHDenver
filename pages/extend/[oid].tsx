@@ -25,7 +25,6 @@ import {
 } from '../../lib/constants';
 import namehash from "@ensdomains/eth-ens-namehash";
 import {ethers} from "ethers";
-import keccak256 from "keccak256";
 
 export default function Extend(props) {
     const [oid, setOid] = useState("");
@@ -75,7 +74,7 @@ export default function Extend(props) {
         functionName: 'renew',
         args: [
             namehash.hash(ensDomain), // parentNode
-            "0x"+keccak256(subname.split(".")[0]).toString('hex'),
+            ethers.utils.keccak256(ethers.utils.toUtf8Bytes(subname.split(".")[0])),
             duration
         ],
         overrides: {
