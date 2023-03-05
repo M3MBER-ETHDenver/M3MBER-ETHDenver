@@ -424,7 +424,6 @@ function OrgPage({ Component, pageProps }) {
                         <SquareIconButton link={`/giveoutpass/${oid}`} text={"Give out pass"} icon={"/give_out_icon.png"} />
                         <SquareIconButton link={`/edit/${oid}`} text={"Edit membership"} icon={"/edit_icon.png"} />
                     </div>
-                    {/* TODO: pass in the data for Membership Claimed */}
                     <MembershipCard text="Memership Claimed" data={summaryCardData.memberNum} />
                     <CommunityTreasuryCard data={summaryCardData} />
                     <Button style={{ marginTop: 25 }} onClick={handleShare}>Share Invite Link</Button>
