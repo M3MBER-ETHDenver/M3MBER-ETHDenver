@@ -35,7 +35,7 @@ export default function Extend(props) {
     //console.log(router.query.d)
     let dateParts = []
     if(router.query.d){
-        dateParts = router.query.d.split("-")
+        dateParts = (router.query.d as string).split("-")
     }
     else{
         dateParts = ["0000","00","00"]
@@ -53,7 +53,7 @@ export default function Extend(props) {
 
     useEffect(()=>{
         if(router.query.d){
-            dateParts = router.query.d.split("-");
+            dateParts = (router.query.d as string).split("-");
             setExpirationdate(new Date(dateParts[0], dateParts[1] - 1, dateParts[2]));
             let newDate = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]);
             newDate.setMonth(1 + newDate.getMonth());
