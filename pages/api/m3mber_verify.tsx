@@ -22,6 +22,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         const data = await response.json();
         if (!response.ok || !data.data.account) {
             res.status(200).send(false);
+            return;
         }
         else {
             const wrappedDomains = data.data.account.wrappedDomains;
@@ -35,15 +36,18 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                     if (domain.includes(name)) {
                         res.status(200).send(true);
                         finished = true;
+                        return;
                     }
                 }
             }
             if (!finished) {
                 res.status(200).send(false);
+                return;
             }
         }
     } else {
         res.status(400).send('Missing parameters: address and name are required');
+        return;
     }
 };
 
