@@ -226,9 +226,13 @@ export default function Home() {
     }
 
     const getDescription = async () => {
-        let originalDescription = await (await provider.getResolver(oid)).getText("M3mber Description");
-        setDescription(originalDescription);
-        setOriginalDescription(originalDescription);
+        const resolver = await provider.getResolver(oid);
+        if(resolver){
+            let originalDescription = await resolver.getText("M3mber Description");
+            setDescription(originalDescription);
+            setOriginalDescription(originalDescription);
+        }
+        
     }
 
     const handleStop = () => {

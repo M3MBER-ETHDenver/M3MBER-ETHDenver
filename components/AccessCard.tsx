@@ -3,16 +3,16 @@ import { Card, Button, Typography } from "@ensdomains/thorin";
 
 
 export default function AccessCard(props) {
-    const { wrapETH2LD, isApprovedForAll, setApprovalForAll, isApprovedForAllResult, step, burnCanUnwrap } = props;
+    const { name, wrapped, wrapETH2LD, isApprovedForAll, setApprovalForAll, isApprovedForAllResult, step, burnCanUnwrap } = props;
 
     if (step == 1)
         return (
-            (setApprovalForAll.isSuccess || isApprovedForAll.data) ?
+            (wrapped) ?
                 <Card
                     className="access-cards-complete">
 
                     <img src="/check.png" alt="check" style={{ width: 75, height: 75, margin: "50px auto 20px auto" }} />
-                    <p style={{ fontSize: 26, textAlign: "center" }}>Wrap your name (TODO)</p>
+                    <p style={{ fontSize: 26, textAlign: "center" }}>Wrap your name</p>
                     <p style={{ fontSize: 26, textAlign: "center", margin: "80px auto 0 auto" }}>Completed!</p>
                 </Card>
                 :
@@ -20,10 +20,9 @@ export default function AccessCard(props) {
                     className="access-cards">
 
                     <img src="/1.png" alt="1" style={{ width: 75, height: 75, margin: "50px auto 20px auto" }} />
-                    <p style={{ fontSize: 26, textAlign: "center" }}>Wrap your name (TODO)</p>
+                    <p style={{ fontSize: 26, textAlign: "center" }}>Wrap your name</p>
                     <Button size="medium" loading={wrapETH2LD.isLoading}
-                        onClick={() => { wrapETH2LD.write() }}
-                        disabled={!wrapETH2LD.write || wrapETH2LD.isLoading || wrapETH2LD.isSuccess || isApprovedForAllResult}
+                        onClick={() => { window.open("https://alpha.ens.domains/"+name) }}
                         style={{ width: 180, height: 50, borderRadius: 100, margin: "80px auto 0 auto" }}>
                         {setApprovalForAll.isLoading ? "Loading..." : "Sign"}
                     </Button>

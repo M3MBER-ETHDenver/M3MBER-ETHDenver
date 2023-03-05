@@ -72,6 +72,11 @@ export default function MyPlans({ Component, pageProps }) {
         {
             title: 'Expiration date',
             dataIndex: 'expirationdate',
+            render: (expirationdate)=>{
+                return(
+                <p style={{color:new Date(expirationdate).getTime() < new Date(new Date().getFullYear(), new Date().getMonth() + 2).getTime()?"rgb(255,124,94)":"black"}}>{expirationdate}</p>
+                )
+            }
             
         },
         {
