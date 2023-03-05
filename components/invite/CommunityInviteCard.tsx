@@ -168,7 +168,7 @@ export default function CommunityInviteCard({ ...props }) {
 
                 <Text strong style={{
                     marginLeft: 10, fontSize: 16, marginBottom: 30, display: "block",
-                    marginRight: "20px", paddingRight: '200px'
+                    marginRight: "20px"
                 }}>{description}</Text>
 
 
