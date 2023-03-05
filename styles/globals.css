@@ -146,20 +146,24 @@ small {
   cursor: pointer;
 }
 
-.landing-page .bbzgte input {
+.landing-page input {
   background-color: rgba(78,134,247,0.1);
 }
 
 
-.landing-page .bbzgte input {
+.landing-page input {
   background-color: rgba(78,134,247,0.1);
 }
 
-.landing-page .iKjzjH {
-  color: rgba(78,134,247);
-}
-
-.landing-page .bbzgte label {
+.landing-page label {
   background-color: rgba(78,134,247, 0.4);
   color: rgba(78,134,247);
+}
+
+.extend-select .ant-select-selector {
+  height: 50px!important;
+}
+
+.extend-select .ant-select-selection-item::after {
+  padding-top: 10px;
 }
