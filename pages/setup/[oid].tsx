@@ -40,6 +40,16 @@ export default function Home() {
     const [mintSuccessAndShare, setMintSuccessAndShare] = useState(false);
     const { address } = useAccount();
 
+    const {data:wrappedOwner} = useContractRead({
+        address: namewrapperAddrGoerli,
+        abi: namewrapperAbiGoerli,
+        functionName: 'ownerOf',
+        args: [
+            namehash.hash(oid)
+        ]
+    })
+    console.log("wrappedOwner",wrappedOwner)
+
     const isApprovedForAll = useContractRead({
         address: namewrapperAddrGoerli,
         abi: namewrapperAbiGoerli,
@@ -175,6 +185,8 @@ export default function Home() {
                 </div>
                 <div style={{ display: "flex", justifyContent: "space-between", width: "100%", marginTop: 30 }}>
                     <AccessCard
+                        name={oid}
+                        wrapped={wrappedOwner!="0x0000000000000000000000000000000000000000"}
                         wrapETH2LD={wrapETH2LD}
                         isApprovedForAll={isApprovedForAll}
                         setApprovalForAll={setApprovalForAll}
@@ -183,6 +195,8 @@ export default function Home() {
                         step={1}
                     />
                     <AccessCard
+                        name={oid}
+                        wrapped={wrappedOwner!="0x0000000000000000000000000000000000000000"}
                         wrapETH2LD={wrapETH2LD}
                         isApprovedForAll={isApprovedForAll}
                         setApprovalForAll={setApprovalForAll}
@@ -191,6 +205,8 @@ export default function Home() {
                         step={2}
                     />
                     <AccessCard
+                        name={oid}
+                        wrapped={wrappedOwner!="0x0000000000000000000000000000000000000000"}
                         wrapETH2LD={wrapETH2LD}
                         isApprovedForAll={isApprovedForAll}
                         setApprovalForAll={setApprovalForAll}
