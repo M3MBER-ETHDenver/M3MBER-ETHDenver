@@ -11,7 +11,6 @@ import {
     useContractWrite,
     usePrepareContractWrite,
     useWaitForTransaction,
-    goerli
 } from 'wagmi'
 import {
     M3mberRegistrarAddrGoerli,
