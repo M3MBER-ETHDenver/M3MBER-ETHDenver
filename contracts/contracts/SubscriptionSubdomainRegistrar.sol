@@ -84,6 +84,43 @@ contract SubscriptionSubdomainRegistrar is BaseSubdomainRegistrar, ERC1155Holder
         return _renew(parentNode, labelhash, duration);
     }
 
+    function batchAirdrop(
+        bytes32 parentNode,
+        string[] calldata labels,
+        address[] calldata addresses,
+        address resolver,
+        uint16 fuses,
+        uint64[] calldata durations,
+        bytes[][] calldata records
+    ) public onlyOwner(parentNode) {
+        if (
+            labels.length != addresses.length || labels.length != records.length
+        ) {
+            revert DataMissing();
+        }
+
+        uint64 largest = durations[0];
+        for (uint i = 1; i < durations.length; i++) {
+            if (durations[i] > largest) {
+                largest = durations[i];
+            }
+        }
+
+        _checkParent(parentNode, largest * 31 days);
+
+        for (uint256 i = 0; i < labels.length; i++) {
+            _register(
+                parentNode,
+                labels[i],
+                addresses[i],
+                resolver,
+                fuses,
+                uint64(block.timestamp) + durations[i] * 31 days,
+                records[i]
+            );
+        }
+    }
+
     function _renew(
         bytes32 parentNode,
         bytes32 labelhash,
