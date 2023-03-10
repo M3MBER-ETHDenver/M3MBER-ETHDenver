@@ -1,9 +1,10 @@
 import React from "react";
 import { Card, Button, Typography } from "@ensdomains/thorin";
+import {useRouter} from 'next/router';
 
-
-export default function AccessCard(props) {
+export default function (props) {
     const { name, wrapped, wrapETH2LD, isApprovedForAll, setApprovalForAll, isApprovedForAllResult, step, burnCanUnwrap } = props;
+    const router = useRouter()
 
     if (step == 1)
         return (
@@ -23,7 +24,7 @@ export default function AccessCard(props) {
                     <p style={{ fontSize: 26, textAlign: "center" }}>Wrap your name</p>
                     <Button size="medium" loading={wrapETH2LD.isLoading}
                         onClick={() => { window.open("https://alpha.ens.domains/"+name) }}
-                        style={{ width: 180, height: 50, borderRadius: 100, margin: "80px auto 0 auto" }}>
+                        style={{ width: 180, height: 50, borderRadius: 100, margin: "auto auto 0 auto" }}>
                         {setApprovalForAll.isLoading ? "Loading..." : "Sign"}
                     </Button>
                 </Card>
@@ -37,7 +38,7 @@ export default function AccessCard(props) {
 
                     <img src="/check.png" alt="check" style={{ width: 75, height: 75, margin: "50px auto 20px auto" }} />
                     <p style={{ fontSize: 26, textAlign: "center" }}>Grant M3MBER Contract Right</p>
-                    <p style={{ fontSize: 26, textAlign: "center", margin: "80px auto 0 auto" }}>Completed!</p>
+                    <p style={{ fontSize: 26, textAlign: "center", margin: "auto auto 0 auto" }}>Completed!</p>
                 </Card>
                 :
                 <Card
@@ -48,7 +49,7 @@ export default function AccessCard(props) {
                     <Button size="medium" loading={setApprovalForAll.isLoading}
                         onClick={() => { setApprovalForAll.write() }}
                         disabled={!setApprovalForAll.write || setApprovalForAll.isLoading || setApprovalForAll.isSuccess || isApprovedForAllResult}
-                        style={{ width: 180, height: 50, borderRadius: 100, margin: "80px auto 0 auto" }}>
+                        style={{ width: 180, height: 50, borderRadius: 100, margin: "auto auto 0 auto" }}>
                         {setApprovalForAll.isLoading ? "Loading..." : "Sign"}
                     </Button>
                 </Card>
@@ -69,13 +70,17 @@ export default function AccessCard(props) {
                     className="access-cards">
 
                     <img src="/3.png" alt="3" style={{ width: 75, height: 75, margin: "50px auto 20px auto" }} />
-                    <p style={{ fontSize: 26, textAlign: "center" }}>Burn CAN_UNWRAP fuses</p>
+                    <p style={{ fontSize: 26, textAlign: "center" }}>Burn CAN_UNWRAP fuses (optional)</p>
+                    <Button size="medium" onClick={() => {router.push("/create/" + name)}}  colorStyle="blueSecondary" style={{ width: 180, height: 50, borderRadius: 100, margin: "0 auto 0 auto" }}>
+                            Skip
+                    </Button>
                     <Button size="medium" loading={burnCanUnwrap.isLoading}
                         onClick={() => burnCanUnwrap.write()}
                         disabled={!burnCanUnwrap.write || burnCanUnwrap.isLoading || burnCanUnwrap.isSuccess || (!setApprovalForAll.isSuccess && !isApprovedForAll.data)}
-                        style={{ width: 180, height: 50, borderRadius: 100, margin: "80px auto 0 auto" }}>
+                        style={{ width: 180, height: 50, borderRadius: 100, margin: "0 auto 0 auto" }}>
                         {burnCanUnwrap.isLoading ? "Loading..." : "Sign"}
                     </Button>
+
                 </Card>
         );
 }
