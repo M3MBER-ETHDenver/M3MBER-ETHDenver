@@ -63,92 +63,6 @@ export default function Home() {
         args: [namehash.hash(oid)]
     });
 
-
-
-
-    const isApprovedForAll = useContractRead({
-        address: namewrapperAddrGoerli,
-        abi: namewrapperAbiGoerli,
-        functionName: 'isApprovedForAll',
-        args: [
-            address,
-            M3mberRegistrarAddrGoerli,
-        ]
-    })
-    const isApprovedForAllResult: boolean = isApprovedForAll.data as boolean;
-    const isCanUnwrapBurnt = useContractRead({
-        address: namewrapperAddrGoerli,
-        abi: namewrapperAbiGoerli,
-        functionName: 'allFusesBurned',
-        args: [
-            namehash.hash(oid),
-            1,
-        ]
-    })
-    console.log(isCanUnwrapBurnt);
-    const wrapETH2LDConfig = usePrepareContractWrite({
-        address: namewrapperAddrGoerli,
-        abi: namewrapperAbiGoerli,
-        functionName: 'wrapETH2LD',
-        args: [
-            M3mberRegistrarAddrGoerli, // parentNode
-            true, // label
-        ],
-        overrides: {
-            gasLimit: '1000000',
-        },
-    })
-
-    const wrapETH2LD = useContractWrite(wrapETH2LDConfig.config)
-    useWaitForTransaction({
-        hash: wrapETH2LD.data?.hash,
-    })
-
-
-    const setApprovalForAllConfig = usePrepareContractWrite({
-        address: namewrapperAddrGoerli,
-        abi: namewrapperAbiGoerli,
-        functionName: 'setApprovalForAll',
-        args: [
-            M3mberRegistrarAddrGoerli, // parentNode
-            true, // label
-        ],
-        overrides: {
-            gasLimit: '1000000',
-        },
-    })
-
-    const setApprovalForAll = useContractWrite(setApprovalForAllConfig.config)
-    useWaitForTransaction({
-        hash: setApprovalForAll.data?.hash,
-    })
-
-    const burnCanUnwrapConfig = usePrepareContractWrite({
-        address: namewrapperAddrGoerli,
-        abi: namewrapperAbiGoerli,
-        functionName: 'setFuses',
-        args: [
-            namehash.hash(oid), // parentNode
-            1, // CANNOT_UNWRAP
-        ],
-        overrides: {
-            gasLimit: '1000000',
-        },
-    })
-    const burnCanUnwrap = useContractWrite(burnCanUnwrapConfig.config)
-    useWaitForTransaction({
-        hash: burnCanUnwrap.data?.hash,
-    })
-
-
-    useEffect(() => {
-        if (burnCanUnwrap.isSuccess) {
-            toast.success("Successfully burn CAN_UNWRAP!")
-        }
-        else if (burnCanUnwrap.isSuccess === false) {
-        }
-    }, [burnCanUnwrap.isSuccess])
-
     useEffect(() => {
         if (data) {
             let fee = ethers.utils.formatEther(data ? data["registrationFee"] : 0).toString();
@@ -172,6 +86,10 @@ export default function Home() {
     })
 
     const setupDomain = useContractWrite(config)
+    const setupDomainTransacation = useWaitForTransaction({
+        hash: setupDomain.data?.hash,
+    })
+
 
     const setM3mbershipDescriptionConfig = usePrepareContractWrite({
         address: ensResolverGoerli,
@@ -189,27 +107,33 @@ export default function Home() {
 
 
     const setM3mbershipDescription = useContractWrite(setM3mbershipDescriptionConfig.config);
+    const setM3mbershipDescriptionTransaction = useWaitForTransaction({
+        hash: setM3mbershipDescription.data?.hash,
+    })
 
     useEffect(() => {
-        if (setupDomain.isSuccess) {
+        if (setupDomainTransacation.isSuccess) {
             toast.success("setup successfully")
             if (originalDescription === description) {
                 router.push("/admin/" + oid);
             }
         }
-    }, [setupDomain.isSuccess])
+    }, [setupDomainTransacation.isSuccess])
 
     useEffect(() => {
-        if (setM3mbershipDescription.isSuccess) {
+        if (setM3mbershipDescriptionTransaction.isSuccess) {
             toast.success("M3mbership Rule Created Successfully: " + oid)
             router.push("/admin/" + oid)
         }
-    }, [setM3mbershipDescription.isSuccess])
+    }, [setM3mbershipDescriptionTransaction.isSuccess])
 
     useEffect(() => {
         getDescription();
     }, [oid])
     const handleCreate = () => {
+        if(fee === originalFee && description === originalDescription){
+            router.push("/admin/" + oid)
+        }
         if (setupDomain.isSuccess || fee === originalFee) {
             if (description !== originalDescription)
                 setM3mbershipDescription.write();
@@ -299,7 +223,7 @@ export default function Home() {
                     <div style={{ display: "flex" }}>
                         <Button key="submit" loading={submitLoading} onClick={handleCreate}
                             style={{ width: "200px", marginTop: 20 }}>
-                            {setupDomain.isSuccess ? "Set Record" : "Save"}
+                            {setupDomainTransacation.isSuccess ? "Set Record" : "Save"}
                         </Button>
                         <Button colorStyle="blueSecondary" onClick={() => { router.push("/admin/" + oid) }}
                             style={{ width: "200px", marginTop: 20, marginLeft: 10 }}>
