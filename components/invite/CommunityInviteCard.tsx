@@ -3,7 +3,8 @@ import { RightOutlined } from "@ant-design/icons";
 import { relative } from "path";
 import { Select, Typography } from 'antd';
 import { toast } from 'react-toastify';
-import { Input, Button, Checkbox } from '@nextui-org/react';
+import { Button, Checkbox } from '@nextui-org/react';
+import { Input } from "@ensdomains/thorin";
 import { useRouter } from "next/router";
 import { EthIcon } from "../EthIcon";
 import { Fragment, useState } from 'react';
@@ -207,18 +208,22 @@ export default function CommunityInviteCard({ ...props }) {
 
                         </Select>
                     </div>
-                    <Input value={input} onChange={(e) => {
-                        try {
-                            namehash.hash(e.target.value + "." + ensDomain)
-                            setInput(e.target.value.toLowerCase());
-                            checkAvailability(e.target.value);
-                        }
-                        catch {
-
-                        }
-                    }} style={{ width: 373 }}
-                        labelRight={"." + ensDomain}
+                    <Input
+                        label=""
+                        size="small"
+                        suffix={"." + ensDomain}
                         placeholder=""
+                        value={input}
+                        onChange={(e) => {
+                            try {
+                                namehash.hash(e.target.value + "." + ensDomain)
+                                setInput(e.target.value.toLowerCase());
+                                checkAvailability(e.target.value);
+                            }
+                            catch {
+
+                            }
+                        }}
                     />
 
                     <Button.Group css={{ margin: "20px 0 0 0" }}>
