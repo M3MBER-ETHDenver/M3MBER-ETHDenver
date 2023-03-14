@@ -151,6 +151,9 @@ export default function Home() {
     })
 
     const setupDomain = useContractWrite(config)
+    useWaitForTransaction({
+        hash: setupDomain.data?.hash,
+    })
 
     const setM3mbershipDescriptionConfig = usePrepareContractWrite({
         address: ensResolverGoerli,
@@ -168,26 +171,31 @@ export default function Home() {
 
 
     const setM3mbershipDescription = useContractWrite(setM3mbershipDescriptionConfig.config);
+    const { isLoading, isSuccess } = useWaitForTransaction({
+        hash: setM3mbershipDescription.data?.hash,
+    })
 
     useEffect(() => {
         if (setupDomain.isSuccess) {
             toast.success("setup successfully")
+            setSubmitLoading(false);
             // setMintSuccessAndShare(true);
             // setSubmitLoading(false);
         }
     }, [setupDomain.isSuccess])
 
     useEffect(() => {
-        if (setM3mbershipDescription.isSuccess) {
+        if (!isLoading && isSuccess) {
             toast.success("M3mbership Rule Created Successfully: " + oid)
             router.push("/admin/" + oid)
         }
-    }, [setM3mbershipDescription.isSuccess])
+    }, [isLoading, isSuccess])
+
 
     const handleCreate = () => {
         if (setupDomain.isSuccess) {
+            setSubmitLoading(true);
             setM3mbershipDescription.write();
-            router.push(`/admin/${oid}`)
         } else {
             setSubmitLoading(true);
             setupDomain?.write({
